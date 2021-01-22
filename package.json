@@ -1,0 +1,5 @@
+{
+  "name": "osp-app-k8s",
+  "private": true,
+  "dependencies": {}
+}
