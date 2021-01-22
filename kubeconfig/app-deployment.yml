@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: decidim-k8s-app-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: decidim-k8s-app
+  template:
+    metadata:
+      labels:
+        app: decidim-k8s-app
+    spec:
+      containers:
+        - name: decidim-k8s-app
+          image: morets/decidim-k8s:latest
+          ports:
+            - containerPort: 3000
+          envFrom:
+            - configMapRef:
+                name: decidim-k8s-app-config

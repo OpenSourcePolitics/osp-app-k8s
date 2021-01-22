@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: decidim-k8s-app-config
+  labels:
+    app: decidim-k8s-app
+data:
+  DATABASE_HOST: "localhost"
+  DATABASE_USERNAME: "semo"
+  DATABASE_PORT: "5432"
+  DATABASE_NAME: "decidim_k8s_app"
+  DATABASE_PASSWORD: ""

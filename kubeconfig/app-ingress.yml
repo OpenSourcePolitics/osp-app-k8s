@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: osp-app-k8s-ing
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  tls:
+    - hosts:
+        - decidim.sebastien.k8s.osp.dev
+      secretName: decidim-tls
+  rules:
+    - host: decidim.sebastien.k8s.osp.dev
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: decidim-k8s-load-balancer
+              servicePort: 80
