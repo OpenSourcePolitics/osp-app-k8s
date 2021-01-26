@@ -1,26 +1,23 @@
 version: '3'
 services:
   app:
-    image: decidim/decidim:0.23.1
-    volumes:
-      - .:/app
-      - bundle:/usr/local/bundle
-      - node_modules:/app/node_modules
+    image: osp-decidim:latest
+    build: .
     environment:
       - PORT=3000
       - DATABASE_HOST=pg
       - DATABASE_USERNAME=postgres
-      - RAILS_ENV=development
+      - RAILS_ENV=production
+      - SECRET_KEY_BASE=123456abcdefg
     ports:
       - 3000:3000
     links:
       - pg
-    command: bundle exec puma
   pg:
     image: postgres
     volumes:
       - pg-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
 volumes:
-  node_modules: {}
-  bundle: {}
   pg-data: {}
