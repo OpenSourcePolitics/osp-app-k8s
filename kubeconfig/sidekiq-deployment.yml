@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: decidim-k8s-sidekiq-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      sidekiq: decidim-k8s-sidekiq
+  template:
+    metadata:
+      labels:
+        sidekiq: decidim-k8s-sidekiq
+    spec:
+      containers:
+        - name: decidim-k8s-sidekiq
+          image: rg.fr-par.scw.cloud/decidim/osp-decidim:latest
+          command: ["bundle", "exec", "sidekiq"]
+          ports:
+            - containerPort: 3000
+          envFrom:
+            - configMapRef:
+                name: decidim-k8s-config

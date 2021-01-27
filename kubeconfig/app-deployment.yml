@@ -14,9 +14,41 @@ spec:
     spec:
       containers:
         - name: decidim-k8s-app
-          image: morets/decidim-k8s:latest
+          image: rg.fr-par.scw.cloud/decidim/osp-decidim:latest
+          command: ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
           ports:
             - containerPort: 3000
           envFrom:
             - configMapRef:
-                name: decidim-k8s-app-config
+                name: decidim-k8s-config
+          env:
+            - name: DATABASE_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: decidim-k8s-app-secrets
+                  key: database-host
+            - name: DATABASE_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: decidim-k8s-app-secrets
+                  key: database-port
+            - name: DATABASE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: decidim-k8s-app-secrets
+                  key: database-username
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: decidim-k8s-app-secrets
+                  key: database-password
+            - name: DATABASE_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: decidim-k8s-app-secrets
+                  key: database-name
+            - name: SECRET_KEY_BASE
+              valueFrom:
+                secretKeyRef:
+                  name: decidim-k8s-app-secrets
+                  key: secret-key-base
