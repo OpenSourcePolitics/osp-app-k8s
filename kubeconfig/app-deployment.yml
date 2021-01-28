@@ -18,37 +18,23 @@ spec:
           command: ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
           ports:
             - containerPort: 3000
+          livenessProbe:
+            exec:
+              command:
+                - cat
+                - tmp/pids/server.pid
+            failureThreshold: 1
+            periodSeconds: 10
+          startupProbe:
+            exec:
+              command:
+                - cat
+                - tmp/pids/server.pid
+            initialDelaySeconds: 120
+            failureThreshold: 30
+            periodSeconds: 10
           envFrom:
             - configMapRef:
                 name: decidim-k8s-config
-          env:
-            - name: DATABASE_HOST
-              valueFrom:
-                secretKeyRef:
-                  name: decidim-k8s-app-secrets
-                  key: database-host
-            - name: DATABASE_PORT
-              valueFrom:
-                secretKeyRef:
-                  name: decidim-k8s-app-secrets
-                  key: database-port
-            - name: DATABASE_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: decidim-k8s-app-secrets
-                  key: database-username
-            - name: DATABASE_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: decidim-k8s-app-secrets
-                  key: database-password
-            - name: DATABASE_NAME
-              valueFrom:
-                secretKeyRef:
-                  name: decidim-k8s-app-secrets
-                  key: database-name
-            - name: SECRET_KEY_BASE
-              valueFrom:
-                secretKeyRef:
-                  name: decidim-k8s-app-secrets
-                  key: secret-key-base
+            - secretRef:
+                name: decidim-k8s-app-secrets
