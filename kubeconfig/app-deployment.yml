@@ -18,6 +18,21 @@ spec:
           command: ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
           ports:
             - containerPort: 3000
+          livenessProbe:
+            exec:
+              command:
+                - cat
+                - tmp/pids/server.pid
+            failureThreshold: 1
+            periodSeconds: 10
+          startupProbe:
+            exec:
+              command:
+                - cat
+                - tmp/pids/server.pid
+            initialDelaySeconds: 120
+            failureThreshold: 30
+            periodSeconds: 10
           envFrom:
             - configMapRef:
                 name: decidim-k8s-config
