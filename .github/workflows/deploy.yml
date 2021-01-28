@@ -1,0 +1,19 @@
+---
+name: Deploy Image to registry
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build & Push Image
+        run: |
+          docker login ${{ secrets.REGISTRY_ENDPOINT }} -u userdoesnotmatter -p ${{ secrets.TOKEN }}
+          docker build . --compress --tag ${{ secrets.TAG }}
+          docker push ${{ secrets.TAG }}
