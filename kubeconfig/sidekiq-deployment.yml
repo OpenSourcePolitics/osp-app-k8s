@@ -12,12 +12,30 @@ spec:
       labels:
         sidekiq: decidim-k8s-sidekiq
     spec:
+      terminationGracePeriodSeconds: 60
       containers:
         - name: decidim-k8s-sidekiq
           image: rg.fr-par.scw.cloud/decidim/osp-decidim:latest
-          command: ["bundle", "exec", "sidekiq"]
+          command: ["bundle", "exec", "sidekiq", "-C", "config/sidekiq.yml"]
           ports:
             - containerPort: 3000
+          livenessProbe:
+            exec:
+              command: ["./sidekiq_alive.sh"]
+            failureThreshold: 1
+            periodSeconds: 10
+          startupProbe:
+            exec:
+              command: ["./sidekiq_alive.sh"]
+            initialDelaySeconds: 120
+            failureThreshold: 30
+            periodSeconds: 10
+          lifecycle:
+            preStop:
+              exec:
+                command: ["./sidekiq_quiet.sh"]
           envFrom:
             - configMapRef:
                 name: decidim-k8s-config
+            - secretRef:
+                name: decidim-k8s-app-secrets
