@@ -16,7 +16,7 @@ spec:
       containers:
         - name: decidim-k8s-sidekiq
           image: rg.fr-par.scw.cloud/decidim/osp-decidim:latest
-          command: ["bundle", "exec", "sidekiq", "-C", "config/sidekiq.yml"]
+          command: ["/usr/local/bundle/bin/bundle", "exec", "sidekiq", "-C", "config/sidekiq.yml"]
           ports:
             - containerPort: 3000
           livenessProbe:
