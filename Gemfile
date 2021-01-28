@@ -34,4 +34,5 @@ end
 
 group :production do
   gem "sidekiq"
+  gem "redis-namespace"
 end
