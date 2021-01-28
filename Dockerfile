@@ -9,6 +9,7 @@ ENV BUNDLE_JOBS=20
 ENV BUNDLE_RETRY=5
 ENV APP_HOME /usr/src/app/
 ENV PATH=${APP_HOME}/bin:${PATH}
+ENV SECRET_KEY_BASE dummy_key_base
 
 RUN apt-get update -qq \
     && DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends \
@@ -41,7 +42,7 @@ RUN addgroup --gid ${GROUP_ID} decidim
 RUN useradd -m -s /bin/bash -g ${GROUP_ID} -u ${USER_ID} decidim
 
 RUN chown -R decidim: /usr/local/bundle
-
+RUN chown -R decidim: ${APP_HOME}
 USER decidim
 
 COPY --chown=decidim:decidim Gemfile Gemfile.lock ${APP_HOME}
@@ -50,8 +51,8 @@ RUN gem install bundler -v "$(grep -A 1 "BUNDLED WITH" Gemfile.lock | tail -n 1)
 RUN bundle install
 
 COPY --chown=decidim:decidim . ${APP_HOME}
-
 RUN bundle exec rails assets:precompile
+
 
 EXPOSE 3000
 CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
