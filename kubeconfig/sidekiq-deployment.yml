@@ -18,6 +18,22 @@ spec:
           command: ["bundle", "exec", "sidekiq", "-C", "sidekiq.yml"]
           ports:
             - containerPort: 3000
+          livenessProbe:
+            exec:
+              command: ["./sidekiq_alive.sh"]
+            failureThreshold: 1
+            periodSeconds: 10
+            startupProbe:
+              exec:
+                command: ["./sidekiq_alive.sh"]
+              initialDelaySeconds: 120
+              failureThreshold: 30
+              periodSeconds: 10
+            lifecycle:
+              preStop:
+                exec:
+                  command: ["./sidekiq_quiet.sh"]
+            terminationGracePeriodSeconds: 60
           envFrom:
             - configMapRef:
                 name: decidim-k8s-config
