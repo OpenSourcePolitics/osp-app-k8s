@@ -53,6 +53,7 @@ RUN bundle install
 COPY --chown=decidim:decidim . ${APP_HOME}
 RUN bundle exec rails assets:precompile
 
+RUN chmod +x ./sidekiq_alive.sh ./sidekiq_quiet.sh
 
 EXPOSE 3000
 CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
