@@ -21,3 +21,5 @@ spec:
           envFrom:
             - configMapRef:
                 name: decidim-k8s-config
+            - secretRef:
+                name: decidim-k8s-app-secrets
