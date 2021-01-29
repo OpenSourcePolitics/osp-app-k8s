@@ -19,12 +19,7 @@ RUN apt-get update -qq \
       imagemagick \
       libicu-dev \
       libpq-dev \
-    && apt-get clean \
-    && rm -rf /var/cache/apt/archives/* \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
-    && truncate -s 0 /var/log/*log
-
-RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg -o /root/yarn-pubkey.gpg && apt-key add /root/yarn-pubkey.gpg \
+    && curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg -o /root/yarn-pubkey.gpg && apt-key add /root/yarn-pubkey.gpg \
     && echo "deb https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list \
     && apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends \
@@ -33,22 +28,22 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg -o /root/yarn-pubkey.gpg &
     && apt-get clean \
     && rm -rf /var/cache/apt/archives/* \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
-    && truncate -s 0 /var/log/*log
+    && truncate -s 0 /var/log/*log \
+    && addgroup --gid ${GROUP_ID} decidim \
+    && useradd -m -s /bin/bash -g ${GROUP_ID} -u ${USER_ID} decidim \
+    && chown -R decidim: /usr/local/bundle
 
 RUN mkdir ${APP_HOME}
 WORKDIR ${APP_HOME}
 
-RUN addgroup --gid ${GROUP_ID} decidim
-RUN useradd -m -s /bin/bash -g ${GROUP_ID} -u ${USER_ID} decidim
-
-RUN chown -R decidim: /usr/local/bundle
 RUN chown -R decidim: ${APP_HOME}
 USER decidim
 
 COPY --chown=decidim:decidim Gemfile Gemfile.lock ${APP_HOME}
-RUN gem uninstall bundler
-RUN gem install bundler -v "$(grep -A 1 "BUNDLED WITH" Gemfile.lock | tail -n 1)"
-RUN bundle install
+
+RUN gem uninstall bundler \
+    && gem install bundler -v "$(grep -A 1 "BUNDLED WITH" Gemfile.lock | tail -n 1)" \
+    && bundle install \ 
 
 COPY --chown=decidim:decidim . ${APP_HOME}
 RUN bundle exec rails assets:precompile
@@ -56,4 +51,3 @@ RUN bundle exec rails assets:precompile
 RUN chmod +x ./sidekiq_alive.sh ./sidekiq_quiet.sh
 
 EXPOSE 3000
-CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
