@@ -25,3 +25,6 @@ migration:
 
 rolling-update:
 	kubectl rollout restart deployment
+
+proxy:
+	kubectl proxy
