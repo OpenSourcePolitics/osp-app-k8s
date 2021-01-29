@@ -28,3 +28,6 @@ rolling-update:
 
 proxy:
 	kubectl proxy
+
+apply:
+	kubectl apply -f kubeconfig
