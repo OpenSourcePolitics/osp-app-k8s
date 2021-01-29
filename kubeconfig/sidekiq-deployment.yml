@@ -3,7 +3,6 @@ kind: Deployment
 metadata:
   name: decidim-k8s-sidekiq-deployment
 spec:
-  replicas: 1
   selector:
     matchLabels:
       sidekiq: decidim-k8s-sidekiq
@@ -17,6 +16,13 @@ spec:
         - name: decidim-k8s-sidekiq
           image: rg.fr-par.scw.cloud/decidim/osp-decidim:latest
           command: ["/usr/local/bundle/bin/bundle", "exec", "sidekiq", "-C", "config/sidekiq.yml"]
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "512Mi"
+            limits:
+              cpu: "200m"
+              memory: "1024Mi"
           ports:
             - containerPort: 3000
           livenessProbe:
@@ -27,7 +33,7 @@ spec:
           startupProbe:
             exec:
               command: ["./sidekiq_alive.sh"]
-            initialDelaySeconds: 120
+            initialDelaySeconds: 240
             failureThreshold: 30
             periodSeconds: 10
           lifecycle:
