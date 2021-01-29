@@ -18,7 +18,7 @@ release:
 	@make push
 
 console:
-	kubectl exec -it decidim-k8s-terminal-pod -- bundle exedc rails console -e production
+	kubectl exec -it decidim-k8s-terminal-pod -- bundle exec rails console -e production
 
 migration:
 	kubectl exec -it decidim-k8s-terminal-pod -- bundle exec rails db:migrate
