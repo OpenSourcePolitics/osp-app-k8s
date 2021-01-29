@@ -35,4 +35,5 @@ end
 group :production do
   gem "sidekiq"
   gem "redis-namespace"
+  gem "newrelic_rpm"
 end
