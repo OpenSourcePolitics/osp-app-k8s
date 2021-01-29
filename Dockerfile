@@ -43,7 +43,7 @@ COPY --chown=decidim:decidim Gemfile Gemfile.lock ${APP_HOME}
 
 RUN gem uninstall bundler \
     && gem install bundler -v "$(grep -A 1 "BUNDLED WITH" Gemfile.lock | tail -n 1)" \
-    && bundle install \ 
+    && bundle install
 
 COPY --chown=decidim:decidim . ${APP_HOME}
 RUN bundle exec rails assets:precompile
