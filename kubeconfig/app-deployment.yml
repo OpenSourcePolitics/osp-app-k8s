@@ -38,3 +38,15 @@ spec:
                 name: decidim-k8s-config
             - secretRef:
                 name: decidim-k8s-app-secrets
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                        - decidim-k8s-app
+                topologyKey: topology.kubernetes.io/zone
