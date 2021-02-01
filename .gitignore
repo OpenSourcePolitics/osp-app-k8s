@@ -32,3 +32,4 @@
 
 # Ignore public uploads
 public/uploads
+.rspec-failures

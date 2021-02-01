@@ -1,3 +1,5 @@
 test
 spec
 tmp/*
+.rspec-failures
+public/uploads
