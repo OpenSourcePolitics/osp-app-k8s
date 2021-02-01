@@ -12,6 +12,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+      - name: Login to registry
+        run: |
+          docker login ${{ secrets.REGISTRY }} -u userdoesnotmatter -p ${{ secrets.TOKEN }}
+      - name: Build image
+        run: |
+          docker build . --compress --tag ${{ secrets.TAG }}
       - name: Wait on tests
         uses: lewagon/wait-on-check-action@master
         with:
@@ -19,12 +25,6 @@ jobs:
           check-name: Tests # name of the existing check - omit to wait for all checks
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           wait-interval: 30 # seconds
-      - name: Login to registry
-        run: |
-          docker login ${{ secrets.REGISTRY }} -u userdoesnotmatter -p ${{ secrets.TOKEN }}
-      - name: Build image
-        run: |
-          docker build . --compress --tag ${{ secrets.TAG }}
       - name: Push Image
         run: |
           docker push ${{ secrets.TAG }}
