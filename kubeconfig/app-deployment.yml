@@ -20,16 +20,12 @@ spec:
             - containerPort: 3000
           livenessProbe:
             exec:
-              command:
-                - cat
-                - tmp/pids/server.pid
+              command: ["./puma_alive.sh"]
             failureThreshold: 1
             periodSeconds: 10
           startupProbe:
             exec:
-              command:
-                - cat
-                - tmp/pids/server.pid
+              command: ["./puma_alive.sh"]
             initialDelaySeconds: 120
             failureThreshold: 30
             periodSeconds: 10
