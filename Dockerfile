@@ -48,6 +48,6 @@ RUN gem uninstall bundler \
 COPY --chown=decidim:decidim . ${APP_HOME}
 RUN bundle exec rails assets:precompile
 
-RUN chmod +x ./sidekiq_alive.sh ./sidekiq_quiet.sh
+RUN chmod +x ./sidekiq_alive.sh ./sidekiq_quiet.sh ./puma_alive.sh
 
 EXPOSE 3000
