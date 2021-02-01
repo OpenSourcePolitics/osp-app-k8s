@@ -28,12 +28,18 @@ jobs:
       - name: Push Image
         run: |
           docker push ${{ secrets.TAG }}
+      - name: delete old migration job
+        uses: actions-hub/kubectl@master
+        env:
+          KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
+        with:
+          args: delete job decidim-k8s-migration-job --ignore-not-found
       - name: Run migration
         uses: actions-hub/kubectl@master
         env:
           KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
         with:
-          args: exec -it decidim-k8s-terminal-pod -- bundle exec rails db:migrate
+          args: apply -f kubeconfig/migration-job.yaml
       - name: Run rolling update
         uses: actions-hub/kubectl@master
         env:
