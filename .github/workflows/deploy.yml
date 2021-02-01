@@ -15,10 +15,10 @@ jobs:
       - name: Wait on tests
         uses: lewagon/wait-on-check-action@master
         with:
-          ref: ${{ github.ref }}
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          wait-interval: 10
-          running-workflow-name: 'Tests'
+          ref: master # can be commit SHA or tag too
+            check-name: Tests # name of the existing check - omit to wait for all checks
+            repo-token: ${{ secrets.GITHUB_TOKEN }}
+            wait-interval: 30 # seconds
       - name: Login to registry
         run: |
           docker login ${{ secrets.REGISTRY }} -u userdoesnotmatter -p ${{ secrets.TOKEN }}
