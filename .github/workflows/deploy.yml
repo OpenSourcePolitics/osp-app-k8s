@@ -1,5 +1,5 @@
 ---
-name: Deploy to production
+name: Deploy Image to registry
 
 on:
   push:
@@ -7,46 +7,20 @@ on:
       - master
 
 jobs:
-  run_tests:
+  build:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v2
-      - name: Run tests
-        run: |
-          bundle exec rspec
-
-  build_image:
-    runs-on: ubuntu-latest
-    steps:
       - name: Login to registry
         run: |
           docker login ${{ secrets.REGISTRY }} -u userdoesnotmatter -p ${{ secrets.TOKEN }}
       - name: Build image
         run: |
           docker build . --compress --tag ${{ secrets.TAG }}
-
-  test_images:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Run app in background
-        run: |
-          docker run -d --rm -it -p 3000:3000 --name osp-decidim-app rg.fr-par.scw.cloud/decidim/osp-decidim:latest bundle exec rails server
-          docker stop osp-decidim-app
-      - name: Run sidekiq in Background
-        run: |
-          docker run -d --rm -it --name osp-decidim-sidekiq rg.fr-par.scw.cloud/decidim/osp-decidim:latest bundle exec sidekiq -C config/sidekiq.yml
-          docker stop osp-decidim-sidekiq
-
-  push_image:
-    runs-on: ubuntu-latest
-    steps:
       - name: Push Image
         run: |
           docker push ${{ secrets.TAG }}
-
-  migrate_and_deploy:
-    runs-on: ubuntu-latest
-    steps:
       - name: Run migration
         uses: actions-hub/kubectl@master
         env:
