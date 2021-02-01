@@ -17,6 +17,9 @@ release:
 	@make build
 	@make push
 
+ssh:
+	kubectl exec -it decidim-k8s-terminal-pod -- /bin/bash
+
 console:
 	kubectl exec -it decidim-k8s-terminal-pod -- bundle exec rails console -e production
 
