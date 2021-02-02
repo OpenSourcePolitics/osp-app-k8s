@@ -349,6 +349,7 @@ GEM
     doorkeeper (5.4.0)
       railties (>= 5)
     doorkeeper-i18n (4.0.1)
+    e2mmap (0.1.0)
     equalizer (0.0.11)
     erb_lint (0.0.37)
       activesupport
@@ -361,6 +362,8 @@ GEM
     erbse (0.1.4)
       temple
     erubi (1.9.0)
+    et-orbi (1.2.4)
+      tzinfo
     etherpad-lite (0.3.0)
       rest-client (>= 1.6)
     execjs (2.7.0)
@@ -390,6 +393,9 @@ GEM
       activesupport (>= 4.1, < 6.0)
       railties (>= 4.1, < 6.0)
       tzinfo (~> 1.2, >= 1.2.2)
+    fugit (1.4.2)
+      et-orbi (~> 1.1, >= 1.1.8)
+      raabro (~> 1.4)
     geocoder (1.6.4)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
@@ -550,6 +556,7 @@ GEM
     public_suffix (4.0.5)
     puma (4.3.5)
       nio4r (~> 2.0)
+    raabro (1.4.0)
     rack (2.2.3)
     rack-attack (6.3.1)
       rack (>= 1.0, < 3)
@@ -667,6 +674,8 @@ GEM
     ruby-progressbar (1.11.0)
     ruby2_keywords (0.0.4)
     rubyzip (2.0.0)
+    rufus-scheduler (3.7.0)
+      fugit (~> 1.1, >= 1.1.6)
     sass (3.7.4)
       sass-listen (~> 4.0.0)
     sass-listen (4.0.0)
@@ -689,6 +698,13 @@ GEM
       connection_pool (>= 2.2.2)
       rack (~> 2.0)
       redis (>= 4.2.0)
+    sidekiq-scheduler (3.0.1)
+      e2mmap
+      redis (>= 3, < 5)
+      rufus-scheduler (~> 3.2)
+      sidekiq (>= 3)
+      thwait
+      tilt (>= 1.4.0)
     simplecov (0.19.1)
       docile (~> 1.1)
       simplecov-html (~> 0.11)
@@ -722,6 +738,8 @@ GEM
       unicode-display_width (~> 1.1, >= 1.1.1)
     thor (1.0.1)
     thread_safe (0.3.6)
+    thwait (0.2.0)
+      e2mmap
     tilt (2.0.10)
     tomlrb (2.0.1)
     truncato (0.7.11)
@@ -783,6 +801,7 @@ DEPENDENCIES
   redis
   redis-namespace
   sidekiq
+  sidekiq-scheduler
   spring (~> 2.0)
   spring-watcher-listen (~> 2.0)
   uglifier (~> 4.1)
