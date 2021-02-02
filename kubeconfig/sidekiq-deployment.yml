@@ -18,10 +18,10 @@ spec:
           command: ["/usr/local/bundle/bin/bundle", "exec", "sidekiq", "-C", "config/sidekiq.yml"]
           resources:
             requests:
-              cpu: "100m"
+              cpu: "1024m"
               memory: "512Mi"
             limits:
-              cpu: "200m"
+              cpu: "2048m"
               memory: "1024Mi"
           ports:
             - containerPort: 3000
