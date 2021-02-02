@@ -15,3 +15,5 @@ Sidekiq.configure_client do |config|
     namespace: "decidim-k8s-sidekiq"
   }
 end
+
+Redis.exists_returns_integer = true
