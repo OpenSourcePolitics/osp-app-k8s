@@ -38,4 +38,5 @@ group :production do
   gem "redis"
   gem "redis-namespace"
   gem "sidekiq"
+  gem "sidekiq-scheduler"
 end
