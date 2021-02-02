@@ -10,10 +10,10 @@
 
 :schedule:
   CalculateAllMetrics:
-    every: ['24h', first_in: '5m']
+    cron: '0 0 0 * * *'
     class: CalculateAllMetricsJob
     queue: scheduled
   PreloadOpenData:
-    every: ['24h', first_in: '1m']
+    cron: '0 0 1 * * *'
     class: PreloadOpenDataJob
     queue: scheduled
