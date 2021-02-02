@@ -3,7 +3,6 @@ kind: Deployment
 metadata:
   name: decidim-k8s-app-deployment
 spec:
-  replicas: 1
   selector:
     matchLabels:
       app: decidim-k8s-app
@@ -16,6 +15,13 @@ spec:
         - name: decidim-k8s-app
           image: rg.fr-par.scw.cloud/decidim/osp-decidim:latest
           command: ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
+          resources:
+            requests:
+              cpu: "1024m"
+              memory: "512Mi"
+            limits:
+              cpu: "2048m"
+              memory: "1024Mi"
           ports:
             - containerPort: 3000
           livenessProbe:
