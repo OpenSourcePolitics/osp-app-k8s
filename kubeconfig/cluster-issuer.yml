@@ -1,13 +1,13 @@
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
-  name: letsencrypt-production
+  name: letsencrypt-prod
 spec:
   acme:
-    server: https://acme-v01.api.letsencrypt.org/directory
+    server: https://acme-v02.api.letsencrypt.org/directory
     email: armand@opensourcepolitics.eu
     privateKeySecretRef:
-      name: letsencrypt-production
+      name: letsencrypt-prod
     solvers:
       - http01:
           ingress:

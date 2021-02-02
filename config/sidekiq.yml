@@ -6,3 +6,14 @@
   - newsletters_opt_in
   - events
   - metrics
+  - scheduled
+
+:schedule:
+  CalculateAllMetrics:
+    every: ['24h', first_in: '5m']
+    class: CalculateAllMetricsJob
+    queue: scheduled
+  PreloadOpenData:
+    every: ['24h', first_in: '1m']
+    class: PreloadOpenDataJob
+    queue: scheduled

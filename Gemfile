@@ -33,7 +33,10 @@ group :development do
 end
 
 group :production do
-  gem "sidekiq"
-  gem "redis-namespace"
+  gem "hiredis"
   gem "newrelic_rpm"
+  gem "redis"
+  gem "redis-namespace"
+  gem "sidekiq"
+  gem "sidekiq-scheduler"
 end
