@@ -3,14 +3,14 @@ kind: Ingress
 metadata:
   name: osp-app-k8s-ing
   annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-production
+    cert-manager.io/cluster-issuer: letsencrypt-prod
 spec:
   tls:
     - hosts:
-        - decidim.39854950-d62f-4660-a0b0-c350c02e2489.nodes.k8s.fr-par.scw.cloud
+        - decidim-k8s.opensourcepolitics.net
       secretName: decidim-tls
   rules:
-    - host: decidim.39854950-d62f-4660-a0b0-c350c02e2489.nodes.k8s.fr-par.scw.cloud
+    - host: decidim-k8s.opensourcepolitics.net
       http:
         paths:
           - path: /
