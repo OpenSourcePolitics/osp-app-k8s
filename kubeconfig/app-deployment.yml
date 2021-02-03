@@ -14,11 +14,11 @@ spec:
       containers:
         - name: decidim-k8s-app
           image: rg.fr-par.scw.cloud/decidim/osp-decidim:latest
-          command: ["/usr/local/bundle/bin/bundle", "exec", "puma", "-C", "config/puma.rb"]
+          args: ["/usr/local/bundle/bin/bundle", "exec", "puma", "-C", "config/puma.rb"]
           resources:
             requests:
-              cpu: "256m"
-              memory: "580Mi"
+              cpu: "900m"
+              memory: "650Mi"
             limits:
               cpu: "1024m"
               memory: "1Gi"

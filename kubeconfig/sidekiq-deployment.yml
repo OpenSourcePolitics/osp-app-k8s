@@ -15,7 +15,7 @@ spec:
       containers:
         - name: decidim-k8s-sidekiq
           image: rg.fr-par.scw.cloud/decidim/osp-decidim:latest
-          command: ["/usr/local/bundle/bin/bundle", "exec", "sidekiq", "-C", "config/sidekiq.yml"]
+          args: ["/usr/local/bundle/bin/bundle", "exec", "sidekiq", "-C", "config/sidekiq.yml"]
           resources:
             requests:
               cpu: "256m"
