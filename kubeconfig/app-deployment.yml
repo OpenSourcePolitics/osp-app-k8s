@@ -17,11 +17,11 @@ spec:
           command: ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
           resources:
             requests:
-              cpu: "1024m"
-              memory: "512Mi"
+              cpu: "256m"
+              memory: "650Mi"
             limits:
-              cpu: "2048m"
-              memory: "1024Mi"
+              cpu: "1024m"
+              memory: "1Gi"
           ports:
             - containerPort: 3000
           livenessProbe:
