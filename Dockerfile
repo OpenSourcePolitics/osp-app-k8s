@@ -46,8 +46,10 @@ RUN gem uninstall bundler \
     && bundle install
 
 COPY --chown=decidim:decidim . ${APP_HOME}
+
 RUN bundle exec rails assets:precompile
 
-RUN chmod +x ./sidekiq_alive.sh ./sidekiq_quiet.sh ./puma_alive.sh
+RUN chmod +x ./sidekiq_alive.sh ./sidekiq_quiet.sh ./puma_alive.sh ./docker-entrypoint.sh
 
 EXPOSE 3000
+ENTRYPOINT ["./docker-entrypoint.sh"]
