@@ -137,7 +137,7 @@ Decidim.configure do |config|
   # config.data_portability_expiry_time = 7.days
 
   # Max requests in a time period to prevent DoS attacks. Only applied on production.
-  # config.throttling_max_requests = 100
+  config.throttling_max_requests = ENV.fetch("MAX_REQUESTS", 100)
 
   # Time window in which the throttling is applied.
   # config.throttling_period = 1.minute
