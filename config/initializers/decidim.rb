@@ -280,5 +280,10 @@ Decidim.configure do |config|
   # config.consent_cookie_name = "decidim-cc"
 end
 
+if ENV["RACK_ATTACK_DISABLED"]
+  require "rack/attack"
+  Rack::Attack.enabled = false
+end
+
 Rails.application.config.i18n.available_locales = Decidim.available_locales
 Rails.application.config.i18n.default_locale = Decidim.default_locale
