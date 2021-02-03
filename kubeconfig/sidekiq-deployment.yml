@@ -18,11 +18,11 @@ spec:
           command: ["/usr/local/bundle/bin/bundle", "exec", "sidekiq", "-C", "config/sidekiq.yml"]
           resources:
             requests:
-              cpu: "1024m"
-              memory: "1024Mi"
+              cpu: "256m"
+              memory: "580Mi"
             limits:
-              cpu: "2048m"
-              memory: "2048Mi"
+              cpu: "1024m"
+              memory: "1Gi"
           ports:
             - containerPort: 3000
           livenessProbe:

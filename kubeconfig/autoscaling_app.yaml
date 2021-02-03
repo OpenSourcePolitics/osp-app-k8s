@@ -9,7 +9,7 @@ spec:
     kind: Deployment
     name: decidim-k8s-app-deployment
   minReplicas: 2
-  maxReplicas: 12
+  maxReplicas: 24
   metrics:
     - type: Resource
       resource:
