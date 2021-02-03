@@ -28,7 +28,7 @@ spec:
           livenessProbe:
             exec:
               command: ["./sidekiq_alive.sh"]
-            failureThreshold: 1
+            failureThreshold: 3
             periodSeconds: 10
           startupProbe:
             exec:
