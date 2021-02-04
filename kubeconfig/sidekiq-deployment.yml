@@ -21,8 +21,8 @@ spec:
               cpu: "256m"
               memory: "600Mi"
             limits:
-              cpu: "1024m"
-              memory: "1Gi"
+              cpu: "300m"
+              memory: "900Mi"
           ports:
             - containerPort: 3000
           livenessProbe:
