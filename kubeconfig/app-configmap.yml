@@ -10,3 +10,4 @@ data:
   RAILS_LOG_TO_STDOUT: "true"
   RAILS_SERVE_STATIC_FILES: "true"
   APP_NAME: "decidim-k8s"
+  RACK_ATTACK_DISABLED: "true"
