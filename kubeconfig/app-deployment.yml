@@ -18,10 +18,10 @@ spec:
           resources:
             requests:
               cpu: "900m"
-              memory: "650Mi"
+              memory: "1250Mi"
             limits:
-              cpu: "1024m"
-              memory: "1Gi"
+              cpu: "2048m"
+              memory: "2048Mi"
           ports:
             - containerPort: 3000
           livenessProbe:
@@ -32,8 +32,8 @@ spec:
           startupProbe:
             exec:
               command: ["./puma_alive.sh"]
-            initialDelaySeconds: 120
-            failureThreshold: 30
+            initialDelaySeconds: 30
+            failureThreshold: 60
             periodSeconds: 10
           envFrom:
             - configMapRef:
