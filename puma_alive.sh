@@ -1,11 +1,10 @@
 #!/bin/sh
 
-curl -i -s 0.0.0.0:3000 > /dev/null
-PUMA_STATUS=$?
+APP_STATUS=$(curl -s 0.0.0.0:3000/app_health_check/all.json | jq ".healthy")
 
 set -e
 
-if [ $PUMA_STATUS -eq 0 ]; then
+if [ $APP_STATUS ]; then
     printf "Running"
     exit 0
 else

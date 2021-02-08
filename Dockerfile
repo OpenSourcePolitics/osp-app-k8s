@@ -19,6 +19,7 @@ RUN apt-get update -qq \
       imagemagick \
       libicu-dev \
       libpq-dev \
+      jq \
     && curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg -o /root/yarn-pubkey.gpg && apt-key add /root/yarn-pubkey.gpg \
     && echo "deb https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list \
     && apt-get update \
@@ -52,4 +53,5 @@ RUN bundle exec rails assets:precompile
 RUN chmod +x ./sidekiq_alive.sh ./sidekiq_quiet.sh ./puma_alive.sh ./docker-entrypoint.sh
 
 EXPOSE 3000
+EXPOSE 7433
 ENTRYPOINT ["./docker-entrypoint.sh"]

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.configure do
+  config.ssl_options = { redirect: { exclude: ->(request) { %r{/app_health_check/all.json}.match?(request.path) } } }
   # Settings specified here will take precedence over those in config/application.rb.
 
   # Code is not reloaded between requests.

@@ -1,14 +1,14 @@
 #!/bin/sh
 
 # Find Pid
-SIDEKIQ_PID=$(ps aux | grep sidekiq | grep busy | awk '{ print $2 }')
+SIDEKIQ_STATUS=$(curl -s 0.0.0.0:7433/sidekiq_health_check)
 
 set -e
 
-if [ -z "$SIDEKIQ_PID" ]; then
-    printf "Not running";
-    exit 1
-else
+if [ "$SIDEKIQ_STATUS" = "Alive!" ]; then
     printf "Running"
     exit 0
+else
+    printf "Not running";
+    exit 1
 fi

@@ -3,7 +3,9 @@ services:
   app:
     image: opensourcepolitics/osp-decidim:latest
     build: .
-    command: ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
+    command: ["/usr/local/bundle/bin/bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
+    volumes:
+      - .:/usr/src/app
     environment:
       - PORT=3000
       - DATABASE_HOST=pg
@@ -14,6 +16,29 @@ services:
       - 3000:3000
     links:
       - pg
+  sidekiq:
+    image: opensourcepolitics/osp-decidim:latest
+    build: .
+    command: ["/usr/local/bundle/bin/bundle", "exec", "sidekiq", "-C", "config/sidekiq.yml"]
+    ports:
+      - 7433:7433
+    volumes:
+      - .:/usr/src/app
+    environment:
+      - PORT=3000
+      - DATABASE_HOST=pg
+      - DATABASE_USERNAME=postgres
+      - RAILS_ENV=production
+      - SECRET_KEY_BASE=123456abcdefg
+      - REDIS_URL=redis://redis
+    links:
+      - pg
+      - redis
+  redis:
+    image: redis
+    container_name: redis
+    expose:
+      - 6379
   pg:
     image: postgres
     volumes:
