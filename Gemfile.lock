@@ -693,6 +693,16 @@ GEM
     selenium-webdriver (3.142.7)
       childprocess (>= 0.5, < 4.0)
       rubyzip (>= 1.2.2)
+    sentry-rails (4.2.0)
+      rails (>= 5.0)
+      sentry-ruby-core (~> 4.2.0)
+    sentry-ruby (4.2.0)
+      concurrent-ruby (~> 1.0, >= 1.0.2)
+      faraday (>= 1.0)
+      sentry-ruby-core (= 4.2.0)
+    sentry-ruby-core (4.2.0)
+      concurrent-ruby
+      faraday
     seven_zip_ruby (1.3.0)
     sidekiq (6.1.3)
       connection_pool (>= 2.2.2)
@@ -800,6 +810,8 @@ DEPENDENCIES
   puma (>= 4.3.5)
   redis
   redis-namespace
+  sentry-rails
+  sentry-ruby
   sidekiq
   sidekiq-scheduler
   spring (~> 2.0)
