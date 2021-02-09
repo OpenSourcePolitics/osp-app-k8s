@@ -33,6 +33,7 @@ group :development do
 end
 
 group :production do
+  gem "health_check"
   gem "hiredis"
   gem "newrelic_rpm"
   gem "redis"
@@ -41,4 +42,5 @@ group :production do
   gem "sentry-ruby"
   gem "sidekiq"
   gem "sidekiq-scheduler"
+  gem "sidekiq_alive"
 end

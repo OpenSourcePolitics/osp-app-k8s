@@ -24,7 +24,7 @@ spec:
               cpu: "300m"
               memory: "900Mi"
           ports:
-            - containerPort: 3000
+            - containerPort: 7433
           livenessProbe:
             exec:
               command: ["./sidekiq_alive.sh"]
