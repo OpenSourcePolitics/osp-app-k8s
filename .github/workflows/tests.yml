@@ -14,6 +14,8 @@ env:
   CI: "true"
   SIMPLECOV: "true"
   RUBY_VERSION: 2.6.0
+  BUNDLE_JOBS: 20
+  BUNDLE_RETRY: 5
 
 jobs:
   tests:
