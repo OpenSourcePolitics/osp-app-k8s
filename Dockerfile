@@ -1,15 +1,15 @@
 FROM ruby:2.6.0
 LABEL maintainer="hola@decidim.org"
 
-ENV USER_ID 1000
-ENV GROUP_ID 2000
-ENV RAILS_ENV production
-ENV LANG=C.UTF-8
-ENV BUNDLE_JOBS=20
-ENV BUNDLE_RETRY=5
-ENV APP_HOME /usr/src/app/
-ENV PATH=${APP_HOME}/bin:${PATH}
-ENV SECRET_KEY_BASE dummy_key_base
+ENV USER_ID=1000 \
+    GROUP_ID=2000 \
+    RAILS_ENV=production \
+    LANG=C.UTF-8 \
+    BUNDLE_JOBS=20 \
+    BUNDLE_RETRY=5 \
+    APP_HOME=/usr/src/app/ \
+    PATH=${APP_HOME}/bin:${PATH} \
+    SECRET_KEY_BASE=dummy_key_base
 
 RUN apt-get update -qq \
     && DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends \
