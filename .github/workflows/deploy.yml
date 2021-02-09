@@ -56,7 +56,7 @@ jobs:
         with:
           args: apply -f kubeconfig
       - name: Run rolling update
-          if: steps.changes.outputs.src == 'false'
+        if: steps.changes.outputs.src == 'false'
         uses: actions-hub/kubectl@master
         env:
           KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
