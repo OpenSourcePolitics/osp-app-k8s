@@ -137,7 +137,7 @@ Decidim.configure do |config|
   # config.data_portability_expiry_time = 7.days
 
   # Max requests in a time period to prevent DoS attacks. Only applied on production.
-  # config.throttling_max_requests = 100
+  config.throttling_max_requests = ENV.fetch("MAX_REQUESTS", 100).to_i
 
   # Time window in which the throttling is applied.
   # config.throttling_period = 1.minute
@@ -278,6 +278,11 @@ Decidim.configure do |config|
   # Defines the name of the cookie used to check if the user allows Decidim to
   # set cookies.
   # config.consent_cookie_name = "decidim-cc"
+end
+
+if ENV["RACK_ATTACK_DISABLED"]
+  require "rack/attack"
+  Rack::Attack.enabled = false
 end
 
 Rails.application.config.i18n.available_locales = Decidim.available_locales

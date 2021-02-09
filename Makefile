@@ -24,7 +24,8 @@ console:
 	kubectl exec -it decidim-k8s-terminal-pod -- bundle exec rails console -e production
 
 migration:
-	kubectl exec -it decidim-k8s-terminal-pod -- bundle exec rails db:migrate
+	kubectl delete job decidim-k8s-migration-job --ignore-not-found
+	kubectl apply -f kubeconfig/migration-job.yaml
 
 rolling-update:
 	kubectl rollout restart deployment
@@ -34,3 +35,7 @@ proxy:
 
 apply:
 	kubectl apply -f kubeconfig
+
+dashboard:
+	open http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/#/overview?namespace=default
+	@make proxy

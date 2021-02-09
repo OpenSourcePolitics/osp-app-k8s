@@ -3,7 +3,6 @@ kind: Deployment
 metadata:
   name: decidim-k8s-sidekiq-deployment
 spec:
-  replicas: 1
   selector:
     matchLabels:
       sidekiq: decidim-k8s-sidekiq
@@ -16,13 +15,20 @@ spec:
       containers:
         - name: decidim-k8s-sidekiq
           image: rg.fr-par.scw.cloud/decidim/osp-decidim:latest
-          command: ["/usr/local/bundle/bin/bundle", "exec", "sidekiq", "-C", "config/sidekiq.yml"]
+          args: ["/usr/local/bundle/bin/bundle", "exec", "sidekiq", "-C", "config/sidekiq.yml"]
+          resources:
+            requests:
+              cpu: "256m"
+              memory: "600Mi"
+            limits:
+              cpu: "300m"
+              memory: "900Mi"
           ports:
             - containerPort: 3000
           livenessProbe:
             exec:
               command: ["./sidekiq_alive.sh"]
-            failureThreshold: 1
+            failureThreshold: 3
             periodSeconds: 10
           startupProbe:
             exec:
@@ -39,3 +45,15 @@ spec:
                 name: decidim-k8s-config
             - secretRef:
                 name: decidim-k8s-app-secrets
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                        - decidim-k8s-sidekiq
+                topologyKey: topology.kubernetes.io/zone

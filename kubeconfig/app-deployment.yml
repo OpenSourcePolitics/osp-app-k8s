@@ -3,7 +3,6 @@ kind: Deployment
 metadata:
   name: decidim-k8s-app-deployment
 spec:
-  replicas: 1
   selector:
     matchLabels:
       app: decidim-k8s-app
@@ -15,26 +14,41 @@ spec:
       containers:
         - name: decidim-k8s-app
           image: rg.fr-par.scw.cloud/decidim/osp-decidim:latest
-          command: ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
+          args: ["/usr/local/bundle/bin/bundle", "exec", "puma", "-C", "config/puma.rb"]
+          resources:
+            requests:
+              cpu: "900m"
+              memory: "1250Mi"
+            limits:
+              cpu: "1024m"
+              memory: "1500Mi"
           ports:
             - containerPort: 3000
           livenessProbe:
             exec:
-              command:
-                - cat
-                - tmp/pids/server.pid
-            failureThreshold: 1
+              command: ["./puma_alive.sh"]
+            failureThreshold: 3
             periodSeconds: 10
           startupProbe:
             exec:
-              command:
-                - cat
-                - tmp/pids/server.pid
-            initialDelaySeconds: 120
-            failureThreshold: 30
+              command: ["./puma_alive.sh"]
+            initialDelaySeconds: 30
+            failureThreshold: 60
             periodSeconds: 10
           envFrom:
             - configMapRef:
                 name: decidim-k8s-config
             - secretRef:
                 name: decidim-k8s-app-secrets
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                        - decidim-k8s-app
+                topologyKey: topology.kubernetes.io/zone
