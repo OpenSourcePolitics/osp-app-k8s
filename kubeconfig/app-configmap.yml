@@ -11,4 +11,5 @@ data:
   RAILS_SERVE_STATIC_FILES: "true"
   APP_NAME: "decidim-k8s"
   RACK_ATTACK_DISABLED: "true"
+  CACHE_ASSETS: "true"
   SENTRY_TRACES_SAMPLE_RATE: "1"
