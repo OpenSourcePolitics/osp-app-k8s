@@ -13,12 +13,12 @@ jobs:
         uses: heinrichreimer/github-changelog-generator-action@v2.1.1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Upload changelog to Wiki
-        uses: docker://decathlon/wiki-page-creator-action:latest
+      - name: Push Wiki Changes
+        uses: Andrew-Chen-Wang/github-wiki-action@v2
         env:
-          ACTION_MAIL: fardeauarmand@gmail.com
-          ACTION_NAME: armandfardeau
-          GH_PAT: ${{ secrets.GITHUB_TOKEN }}
-          OWNER: ${{ github.repository_owner }}
-          REPO_NAME: ${{ github.event.repository.name }}
-          SKIP_MD: README.md
+          # Make sure you have that / at the end. We use rsync
+          # WIKI_DIR's default is wiki/
+          WIKI_DIR: ./CHANGELOG.md
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_MAIL: ${{ secrets.EMAIL }}
+          GH_NAME: ${{ github.repository_owner }}
