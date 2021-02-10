@@ -1,7 +1,7 @@
 ---
 name: Generate changelog
 on:
-  push:
+  pull_request:
     branches:
       - "*"
 jobs:
