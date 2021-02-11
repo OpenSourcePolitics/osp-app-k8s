@@ -25,7 +25,7 @@ console:
 
 migration:
 	kubectl delete job decidim-k8s-migration-job --ignore-not-found
-	kubectl apply -f kubeconfig/migration-job.yaml
+	kubectl apply -f kubeconfig/base/migration-job.yaml
 
 rolling-update:
 	kubectl rollout restart deployment
@@ -35,6 +35,9 @@ proxy:
 
 apply-production:
 	kubectl apply -k kubeconfig/overlays/production
+
+apply-staging:
+	kubectl apply -k kubeconfig/overlays/staging
 
 dashboard:
 	open http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/#/overview?namespace=default
