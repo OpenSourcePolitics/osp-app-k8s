@@ -13,3 +13,4 @@ data:
   RACK_ATTACK_DISABLED: "true"
   CACHE_ASSETS: "true"
   SENTRY_TRACES_SAMPLE_RATE: "1"
+  NEW_RELIC_ENV: "production"
