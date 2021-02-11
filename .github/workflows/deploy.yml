@@ -18,14 +18,21 @@ jobs:
       - name: Build image
         run: |
           docker build . --compress --tag ${{ secrets.TAG }}
-      - name: Checks for modified kubeconfig
+      - name: Checks for modified app deployment
         uses: dorny/paths-filter@v2
-        id: changes
+        id: app_changes
         with:
           base: ${{ github.ref }}
           filters: |
             src:
               - 'kubeconfig/app-deployment.yml'
+      - name: Checks for modified sidekiq deployment
+        uses: dorny/paths-filter@v2
+        id: sidekiq_changes
+        with:
+          base: ${{ github.ref }}
+          filters: |
+            src:
               - 'kubeconfig/sidekiq-deployment.yml'
       - name: Wait on tests
         uses: lewagon/wait-on-check-action@master
@@ -55,8 +62,15 @@ jobs:
           KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
         with:
           args: apply -f kubeconfig
-      - name: Run rolling update
-        if: steps.changes.outputs.src == 'false'
+      - name: Run app rolling update
+        if: steps.app_changes.outputs.src == 'false'
+        uses: actions-hub/kubectl@master
+        env:
+          KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
+        with:
+          args: rollout restart deployment
+      - name: Run sidekiq rolling update
+        if: steps.sidekiq_changes.outputs.src == 'false'
         uses: actions-hub/kubectl@master
         env:
           KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
