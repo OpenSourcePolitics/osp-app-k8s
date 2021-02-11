@@ -26,7 +26,7 @@ jobs:
           filters: |
             src:
               - 'kubeconfig/base/app-deployment.yml'
-              - 'kubeconfig/overlays/production/app-deployment.yml'
+              - 'kubeconfig/overlays/staging/app-deployment.yml'
       - name: Checks for modified sidekiq deployment
         uses: dorny/paths-filter@v2
         id: sidekiq_changes
@@ -35,7 +35,7 @@ jobs:
           filters: |
             src:
               - 'kubeconfig/base/sidekiq-deployment.yml'
-              - 'kubeconfig/overlays/production/sidekiq-deployment.yml'
+              - 'kubeconfig/overlays/staging/sidekiq-deployment.yml'
       - name: Wait on tests
         uses: lewagon/wait-on-check-action@master
         with:
