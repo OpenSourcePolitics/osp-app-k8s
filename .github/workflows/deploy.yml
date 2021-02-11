@@ -25,7 +25,8 @@ jobs:
           base: ${{ github.ref }}
           filters: |
             src:
-              - 'kubeconfig/app-deployment.yml'
+              - 'kubeconfig/base/app-deployment.yml'
+              - 'kubeconfig/overlays/production/app-deployment.yml'
       - name: Checks for modified sidekiq deployment
         uses: dorny/paths-filter@v2
         id: sidekiq_changes
@@ -33,7 +34,8 @@ jobs:
           base: ${{ github.ref }}
           filters: |
             src:
-              - 'kubeconfig/sidekiq-deployment.yml'
+              - 'kubeconfig/base/sidekiq-deployment.yml'
+              - 'kubeconfig/overlays/production/sidekiq-deployment.yml'
       - name: Wait on tests
         uses: lewagon/wait-on-check-action@master
         with:
@@ -44,7 +46,7 @@ jobs:
       - name: Push Image
         run: |
           docker push ${{ secrets.TAG }}
-      - name: delete old migration job
+      - name: Delete old migration job
         uses: actions-hub/kubectl@master
         env:
           KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
@@ -55,13 +57,13 @@ jobs:
         env:
           KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
         with:
-          args: apply -f kubeconfig/migration-job.yaml
+          args: apply -f kubeconfig/base/migration-job.yaml
       - name: Apply configuration changes
         uses: actions-hub/kubectl@master
         env:
           KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
         with:
-          args: apply -f kubeconfig
+          args: apply -k kubeconfig/overlays/production
       - name: Run app rolling update
         if: steps.app_changes.outputs.src == 'false'
         uses: actions-hub/kubectl@master
