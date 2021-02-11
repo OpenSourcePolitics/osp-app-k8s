@@ -14,15 +14,7 @@ spec:
       terminationGracePeriodSeconds: 60
       containers:
         - name: decidim-k8s-sidekiq
-          image: rg.fr-par.scw.cloud/decidim/osp-decidim:latest
           args: ["/usr/local/bundle/bin/bundle", "exec", "sidekiq", "-C", "config/sidekiq.yml"]
-          resources:
-            requests:
-              cpu: "256m"
-              memory: "600Mi"
-            limits:
-              cpu: "300m"
-              memory: "900Mi"
           ports:
             - containerPort: 3000
           livenessProbe:
@@ -45,15 +37,3 @@ spec:
                 name: decidim-k8s-config
             - secretRef:
                 name: decidim-k8s-app-secrets
-      affinity:
-        podAntiAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-            - weight: 100
-              podAffinityTerm:
-                labelSelector:
-                  matchExpressions:
-                    - key: app
-                      operator: In
-                      values:
-                        - decidim-k8s-sidekiq
-                topologyKey: topology.kubernetes.io/zone

@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: decidim-k8s-config
+  labels:
+    app: decidim-k8s-app
+    sidekiq: decidim-k8s-sidekiq
+data:
+  RACK_ATTACK_DISABLED: "true"
+  CACHE_ASSETS: "true"
+  SENTRY_TRACES_SAMPLE_RATE: "0.5"
+  NEW_RELIC_ENV: "production"

@@ -1,0 +1,9 @@
+resources:
+- app-configmap.yml
+- app-deployment.yml
+- cluster-issuer.yml
+- load-balancer.yml
+- metric-server.yaml
+- migration-job.yaml
+- sidekiq-deployment.yml
+- terminal.yaml

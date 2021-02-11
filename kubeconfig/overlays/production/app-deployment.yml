@@ -3,18 +3,11 @@ kind: Deployment
 metadata:
   name: decidim-k8s-app-deployment
 spec:
-  selector:
-    matchLabels:
-      app: decidim-k8s-app
   template:
-    metadata:
-      labels:
-        app: decidim-k8s-app
     spec:
       containers:
         - name: decidim-k8s-app
           image: rg.fr-par.scw.cloud/decidim/osp-decidim:latest
-          args: ["/usr/local/bundle/bin/bundle", "exec", "puma", "-C", "config/puma.rb"]
           resources:
             requests:
               cpu: "900m"
@@ -22,24 +15,6 @@ spec:
             limits:
               cpu: "1024m"
               memory: "1500Mi"
-          ports:
-            - containerPort: 3000
-          livenessProbe:
-            exec:
-              command: ["./puma_alive.sh"]
-            failureThreshold: 3
-            periodSeconds: 10
-          startupProbe:
-            exec:
-              command: ["./puma_alive.sh"]
-            initialDelaySeconds: 30
-            failureThreshold: 60
-            periodSeconds: 10
-          envFrom:
-            - configMapRef:
-                name: decidim-k8s-config
-            - secretRef:
-                name: decidim-k8s-app-secrets
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
