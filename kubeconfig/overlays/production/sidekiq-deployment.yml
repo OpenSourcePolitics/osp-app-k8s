@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: decidim-k8s-sidekiq-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: decidim-k8s-sidekiq
+          image: rg.fr-par.scw.cloud/decidim/osp-decidim:latest
+          resources:
+            requests:
+              cpu: "256m"
+              memory: "600Mi"
+            limits:
+              cpu: "300m"
+              memory: "900Mi"
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                        - decidim-k8s-sidekiq
+                topologyKey: topology.kubernetes.io/zone
