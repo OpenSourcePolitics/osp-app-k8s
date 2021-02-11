@@ -7,6 +7,6 @@ if Rails.env.production?
 
     # To activate performance monitoring, set one of these options.
     # We recommend adjusting the value in production:
-    config.traces_sample_rate = 0.5
+    config.traces_sample_rate = ENV.fetch("SENTRY_TRACES_SAMPLE_RATE", 0.5).to_f
   end
 end
