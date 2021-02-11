@@ -1,0 +1,80 @@
+---
+name: Deploy Image to staging
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Login to registry
+        run: |
+          docker login ${{ secrets.REGISTRY }} -u userdoesnotmatter -p ${{ secrets.TOKEN }}
+      - name: Build image
+        run: |
+          docker build . --compress --tag ${{ secrets.STAGING_TAG }}
+      - name: Checks for modified app deployment
+        uses: dorny/paths-filter@v2
+        id: app_changes
+        with:
+          base: ${{ github.ref }}
+          filters: |
+            src:
+              - 'kubeconfig/base/app-deployment.yml'
+              - 'kubeconfig/overlays/staging/app-deployment.yml'
+      - name: Checks for modified sidekiq deployment
+        uses: dorny/paths-filter@v2
+        id: sidekiq_changes
+        with:
+          base: ${{ github.ref }}
+          filters: |
+            src:
+              - 'kubeconfig/base/sidekiq-deployment.yml'
+              - 'kubeconfig/overlays/staging/sidekiq-deployment.yml'
+      - name: Wait on tests
+        uses: lewagon/wait-on-check-action@master
+        with:
+          ref: master # can be commit SHA or tag too
+          check-name: Tests # name of the existing check - omit to wait for all checks
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          wait-interval: 30 # seconds
+      - name: Push Image
+        run: |
+          docker push ${{ secrets.STAGING_TAG }}
+      - name: Delete old migration job
+        uses: actions-hub/kubectl@master
+        env:
+          KUBE_CONFIG: ${{ secrets.STAGING_KUBE_CONFIG }}
+        with:
+          args: delete job decidim-k8s-migration-job --ignore-not-found
+      - name: Run migration
+        uses: actions-hub/kubectl@master
+        env:
+          KUBE_CONFIG: ${{ secrets.STAGING_KUBE_CONFIG }}
+        with:
+          args: apply -f kubeconfig/base/migration-job.yaml
+      - name: Apply configuration changes
+        uses: actions-hub/kubectl@master
+        env:
+          KUBE_CONFIG: ${{ secrets.STAGING_KUBE_CONFIG }}
+        with:
+          args: apply -k kubeconfig/overlays/production
+      - name: Run app rolling update
+        if: steps.app_changes.outputs.src == 'false'
+        uses: actions-hub/kubectl@master
+        env:
+          KUBE_CONFIG: ${{ secrets.STAGING_KUBE_CONFIG }}
+        with:
+          args: rollout restart deployment
+      - name: Run sidekiq rolling update
+        if: steps.sidekiq_changes.outputs.src == 'false'
+        uses: actions-hub/kubectl@master
+        env:
+          KUBE_CONFIG: ${{ secrets.STAGING_KUBE_CONFIG }}
+        with:
+          args: rollout restart deployment
