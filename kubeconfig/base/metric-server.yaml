@@ -7,7 +7,6 @@ metadata:
     k8s.scw.cloud/system: metrics
   name: metrics-server
   namespace: kube-system
-  uid: a7e067f9-9787-4d02-9864-a47a7fc92b84
 spec:
   progressDeadlineSeconds: 600
   replicas: 1
