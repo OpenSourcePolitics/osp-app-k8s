@@ -1,0 +1,6 @@
+bases:
+  - ../../base
+patchesStrategicMerge:
+  - app-deployment.yml
+  - sidekiq-deployment.yml
+
