@@ -1,7 +1,6 @@
 resources:
 - app-configmap.yml
 - app-deployment.yml
-- app-ingress.yml
 - cluster-issuer.yml
 - load-balancer.yml
 - metric-server.yaml
