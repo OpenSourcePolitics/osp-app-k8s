@@ -1,5 +1,6 @@
-resources:
+bases:
   - ../../base
+resources:
   - autoscaling_app.yaml
   - autoscaling_sidekiq.yaml
 patchesStrategicMerge:
