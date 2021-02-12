@@ -35,6 +35,7 @@ group :development do
 end
 
 group :production do
+  gem "fog-aws"
   gem "hiredis"
   gem "newrelic_rpm"
   gem "redis"
@@ -43,5 +44,4 @@ group :production do
   gem "sentry-ruby"
   gem "sidekiq"
   gem "sidekiq-scheduler"
-  gem "fog-aws"
 end
