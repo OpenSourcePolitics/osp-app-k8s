@@ -35,6 +35,7 @@ group :development do
 end
 
 group :production do
+  gem "fog-aws"
   gem "hiredis"
   gem "newrelic_rpm"
   gem "redis"
