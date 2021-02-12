@@ -43,4 +43,5 @@ group :production do
   gem "sentry-ruby"
   gem "sidekiq"
   gem "sidekiq-scheduler"
+  gem "fog-aws"
 end
