@@ -20,6 +20,9 @@ release:
 ssh:
 	kubectl exec -it decidim-k8s-terminal-pod -- /bin/bash
 
+kill-terminal:
+	kubectl delete pod decidim-k8s-terminal-pod --ignore-not-found
+
 console:
 	kubectl exec -it decidim-k8s-terminal-pod -- bundle exec rails console -e production
 
