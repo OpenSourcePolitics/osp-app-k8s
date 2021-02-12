@@ -3,9 +3,9 @@ kind: Deployment
 metadata:
   name: decidim-k8s-app-deployment
 spec:
+  replicas: 2
   template:
     spec:
-      replicas: 2
       containers:
         - name: decidim-k8s-app
           image: rg.fr-par.scw.cloud/decidim/osp-decidim_staging:latest

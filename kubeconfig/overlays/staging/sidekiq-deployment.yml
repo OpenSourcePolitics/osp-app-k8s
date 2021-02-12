@@ -3,9 +3,9 @@ kind: Deployment
 metadata:
   name: decidim-k8s-sidekiq-deployment
 spec:
+  replicas: 1
   template:
     spec:
-      replicas: 1
       containers:
         - name: decidim-k8s-sidekiq
           image: rg.fr-par.scw.cloud/decidim/osp-decidim_staging:latest
