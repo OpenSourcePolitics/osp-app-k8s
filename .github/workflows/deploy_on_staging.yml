@@ -63,7 +63,7 @@ jobs:
         env:
           KUBE_CONFIG: ${{ secrets.STAGING_KUBE_CONFIG }}
         with:
-          args: apply -k kubeconfig/overlays/production
+          args: apply -k kubeconfig/overlays/staging
       - name: Run app rolling update
         if: steps.app_changes.outputs.src == 'false'
         uses: actions-hub/kubectl@master
