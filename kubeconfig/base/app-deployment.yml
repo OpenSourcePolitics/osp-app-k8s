@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: decidim-k8s-app-deployment
+spec:
+  selector:
+    matchLabels:
+      app: decidim-k8s-app
+  template:
+    metadata:
+      labels:
+        app: decidim-k8s-app
+    spec:
+      containers:
+        - name: decidim-k8s-app
+          args: ["/usr/local/bundle/bin/bundle", "exec", "puma", "-C", "config/puma.rb"]
+          ports:
+            - containerPort: 3000
+          livenessProbe:
+            exec:
+              command: ["./puma_alive.sh"]
+            failureThreshold: 3
+            periodSeconds: 10
+          startupProbe:
+            exec:
+              command: ["./puma_alive.sh"]
+            initialDelaySeconds: 30
+            failureThreshold: 60
+            periodSeconds: 10
+          envFrom:
+            - configMapRef:
+                name: decidim-k8s-config
+            - secretRef:
+                name: decidim-k8s-app-secrets

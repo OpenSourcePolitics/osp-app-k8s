@@ -9,6 +9,8 @@ gem "decidim", "0.23.2"
 # gem "decidim-initiatives", "0.23.1"
 # gem "decidim-templates", "0.23.1"
 
+gem "decidim-term_customizer", github: "OpenSourcePolitics/decidim-module-term_customizer", branch: "0.dev"
+
 gem "bootsnap", "~> 1.3"
 
 gem "puma", ">= 4.3.5"
@@ -33,6 +35,7 @@ group :development do
 end
 
 group :production do
+  gem "fog-aws"
   gem "hiredis"
   gem "newrelic_rpm"
   gem "redis"

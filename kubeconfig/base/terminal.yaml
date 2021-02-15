@@ -5,7 +5,6 @@ metadata:
 spec:
   containers:
     - name: decidim-k8s-terminal
-      image: rg.fr-par.scw.cloud/decidim/osp-decidim:latest
       command: ['sleep']
       args: ['infinity']
       envFrom:
