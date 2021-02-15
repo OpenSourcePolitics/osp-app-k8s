@@ -1,0 +1,11 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: decidim-k8s-sidekiq-deployment
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+        - name: decidim-k8s-sidekiq
+          image: rg.fr-par.scw.cloud/decidim/osp-decidim_staging:latest
