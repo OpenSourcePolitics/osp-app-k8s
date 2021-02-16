@@ -1,5 +1,5 @@
 ---
-name: Deploy Image to production
+name: WIP
 
 on:
   push:
