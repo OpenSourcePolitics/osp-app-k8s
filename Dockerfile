@@ -22,13 +22,13 @@ COPY --chown=decidim:decidim Gemfile Gemfile.lock ${APP_HOME}
 
 USER decidim
 
-RUN gem uninstall bundler \
+RUN bundle check || gem uninstall bundler \
     && gem install bundler -v "$(grep -A 1 "BUNDLED WITH" Gemfile.lock | tail -n 1)" \
     && bundle install
 
 COPY --chown=decidim:decidim . ${APP_HOME}
 
-RUN bundle exec rake assets:clobber assets:precompile
+RUN bundle exec rake assets:precompile
 
 EXPOSE 3000
 ENTRYPOINT ["./docker-entrypoint.sh"]

@@ -10,7 +10,7 @@ login:
 	docker login $(REGISTRY) -u nologin -p $(SCW_SECRET_TOKEN)
 
 build:
-	 docker build . --compress -t $(TAG)
+	 docker build . --compress -t $(TAG) --cache-from $(TAG)
 
 build-base:
 	 docker build --compress -t $(BASE_BUILD_TAG) - < Dockerfile.build

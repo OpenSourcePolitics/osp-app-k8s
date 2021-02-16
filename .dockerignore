@@ -3,3 +3,8 @@ spec
 tmp/*
 .rspec-failures
 public/uploads
+.github
+.dockerignore
+Dockerfile
+Dockerfile.build
+.byebug_history
