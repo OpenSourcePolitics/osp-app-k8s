@@ -1,4 +1,4 @@
-FROM osp_decidim
+FROM rg.fr-par.scw.cloud/decidim/osp-decidim-base:latest
 
 ENV USER_ID=1000 \
     GROUP_ID=2000 \
