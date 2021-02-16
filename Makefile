@@ -10,11 +10,16 @@ login:
 	docker login $(REGISTRY) -u nologin -p $(SCW_SECRET_TOKEN)
 
 build:
-	 docker build --compress -t $(BASE_BUILD_TAG) - < Dockerfile.build
 	 docker build . --compress -t $(TAG)
+
+build-base:
+	 docker build --compress -t $(BASE_BUILD_TAG) - < Dockerfile.build
 
 push:
 	docker push $(TAG)
+
+push-base:
+	docker push $(BASE_BUILD_TAG)
 
 release:
 	@make build
