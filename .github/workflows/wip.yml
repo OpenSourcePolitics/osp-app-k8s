@@ -4,7 +4,7 @@ name: Deploy Image to production
 on:
   push:
     branches:
-      - "*"
+      - wip/*
 
 jobs:
   build:
