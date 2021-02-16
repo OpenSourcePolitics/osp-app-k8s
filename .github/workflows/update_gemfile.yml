@@ -1,0 +1,22 @@
+---
+name: Update Gemfile
+on:
+  schedule:
+    - cron: '*/10 * * * *'
+
+jobs:
+  bundle-update:
+    name: bundle update
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+        with:
+          fetch-depth: 1
+      - name: Pull request on bundle update
+        uses: supermanner/pull-request-on-bundle-update@v1.0.1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          git_user_name: MoretS
+          git_email: smoret1997@gmail.com
+          reviewers: armandfardeau
