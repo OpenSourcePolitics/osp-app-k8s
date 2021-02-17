@@ -4,14 +4,18 @@ on:
   schedule:
     - cron: '*/10 * * * *'
 
-env:
-  RUBY_VERSION: 2.6.0
-
 jobs:
   bundle-update:
     name: bundle update
     runs-on: ubuntu-latest
     steps:
+      - name: Get Time
+        id: time
+        uses: nanzm/get-time-action@v1.1
+        with:
+          timeZone: 1
+          format: 'YYYY-MM-DD-HH-mm-ss'
+
       - name: Checkout
         uses: actions/checkout@v2
         with:
@@ -20,17 +24,21 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: ${{ env.RUBY_VERSION }}
-          bundler-cache: true
+          ruby-version: 2.6.3
 
       - name: Run bundle update
         run: bundle update
+
+      - name: Install migrations
+        run: bundle exec rake decidim:upgrade
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
           commit-message: Bump Gemfile
-          branch: bump/update-gemfile
+          branch: "bump/update-gemfile-${{ steps.time.outputs.time }}"
           title: 'Update Gemfile'
-          assignees: MoretS
-          reviewers: armandfardeau
+          body: |
+            🚨ATTENTION🚨
+
+            Do not forget to update existing tests if necessary.
