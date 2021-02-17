@@ -1,5 +1,5 @@
 ---
-name: Update Gemfile
+name: Update app
 on:
   schedule:
     - cron: '0 6 * * 1'
@@ -35,9 +35,9 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
-          commit-message: Bump Gemfile
-          branch: "bump/update-gemfile-${{ steps.time.outputs.time }}"
-          title: 'Update Gemfile'
+          commit-message: Bump Gemfile.lock and install migrations
+          branch: "bump/update-app-${{ steps.time.outputs.time }}"
+          title: 'Update app'
           body: |
             🚨ATTENTION🚨
 
