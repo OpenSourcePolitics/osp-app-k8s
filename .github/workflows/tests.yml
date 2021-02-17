@@ -48,12 +48,6 @@ jobs:
         with:
           ruby-version: ${{ env.RUBY_VERSION }}
           bundler-cache: true
-      - name:
-        run: |
-          bundle exec rubocop -P
-      - name: Lint views
-        run: |
-          ./.github/run_erblint.sh
       - name: Create db
         run: |
           bundle exec rails db:create
