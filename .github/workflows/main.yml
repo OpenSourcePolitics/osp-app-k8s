@@ -2,9 +2,7 @@ name: [CI] Main
 
 on:
   workflow_run:
-    workflows:
-      - Tests
-      - Lint
+    workflows: ["Tests", "Lint"]
     branches:
       - develop
       - master
