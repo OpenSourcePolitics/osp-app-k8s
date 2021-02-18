@@ -1,0 +1,44 @@
+name: Security checks
+on: push
+jobs:
+  security_checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/ruby@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      - name: Generate staging manifest
+        run: |
+          kustomize build kubeconfig/overlays/staging >> staging_manifest.yml
+      - name: Check kubernetes staging files
+        uses: snyk/actions/iac@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          file: staging_manifest.yml
+          args: --severity-threshold=high
+      - name: Generate production manifest
+        run: |
+          kustomize build kubeconfig/overlays/production >> production_manifest.yml
+      - name: Check kubernetes production files
+        uses: snyk/actions/iac@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          file: production_manifest.yml
+          args: --severity-threshold=high
+      - name: Run Brakeman
+        run: |
+          docker pull presidentbeef/brakeman
+          docker run -v "$(pwd)":/code presidentbeef/brakeman
+      - name: Build a Docker image
+        run: docker build -t your/image-to-test .
+      - name: Run Snyk to check Docker image for vulnerabilities
+        # Snyk can be used to break the build when it detects vulnerabilities.
+        # In this case we want to upload the issues to GitHub Code Scanning
+        continue-on-error: false
+        uses: snyk/actions/docker@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
