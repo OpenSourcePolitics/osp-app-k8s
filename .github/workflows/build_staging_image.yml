@@ -4,6 +4,7 @@ name: Build Image for staging
 on:
   push:
     branches:
+      - "feature/*"
       - develop
 
 jobs:
