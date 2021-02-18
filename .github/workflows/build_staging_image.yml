@@ -1,0 +1,22 @@
+---
+name: Build Image for staging
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  build_staging_image:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: whoan/docker-build-with-cache-action@v5
+        with:
+          username: whoan
+          password: "${{ secrets.GITHUB_TOKEN }}"
+          image_name: ${{ secrets.STAGING_TAG }}
+          registry: docker.pkg.github.com
+          build_extra_args: "--compress=true"
+          push_image_and_stages: false
+          pull_image_and_stages: false

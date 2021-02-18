@@ -15,9 +15,6 @@ jobs:
       - name: Login to registry
         run: |
           docker login ${{ secrets.REGISTRY }} -u userdoesnotmatter -p ${{ secrets.TOKEN }}
-      - name: Build image
-        run: |
-          docker build . --compress --tag ${{ secrets.STAGING_TAG }}
       - name: Checks for modified app deployment
         uses: dorny/paths-filter@v2
         id: app_changes
