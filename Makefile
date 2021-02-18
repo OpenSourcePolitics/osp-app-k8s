@@ -2,24 +2,16 @@ REGISTRY := rg.fr-par.scw.cloud
 NAMESPACE := decidim
 VERSION := latest
 IMAGE_NAME := osp-decidim
-BUILD_IMAGE_NAME := osp-decidim-base
-BASE_BUILD_TAG := $(REGISTRY)/$(NAMESPACE)/$(BUILD_IMAGE_NAME):$(VERSION)
 TAG := $(REGISTRY)/$(NAMESPACE)/$(IMAGE_NAME):$(VERSION)
 
 login:
 	docker login $(REGISTRY) -u nologin -p $(SCW_SECRET_TOKEN)
 
 build:
-	 docker build . --compress -t $(TAG)
-
-build-base:
-	 docker build --compress -t $(BASE_BUILD_TAG) - < Dockerfile.build
+	 docker build .  --compress -t $(TAG)
 
 push:
 	docker push $(TAG)
-
-push-base:
-	docker push $(BASE_BUILD_TAG)
 
 release:
 	@make build
