@@ -34,11 +34,9 @@ jobs:
           docker pull presidentbeef/brakeman
           docker run -v "$(pwd)":/code presidentbeef/brakeman
       - name: Build a Docker image
-        run: docker build -t your/image-to-test .
+        run: docker build . # TODO: Use cached image
       - name: Run Snyk to check Docker image for vulnerabilities
-        # Snyk can be used to break the build when it detects vulnerabilities.
-        # In this case we want to upload the issues to GitHub Code Scanning
-        continue-on-error: false
+        continue-on-error: true
         uses: snyk/actions/docker@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
