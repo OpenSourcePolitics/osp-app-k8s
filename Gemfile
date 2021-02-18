@@ -4,10 +4,12 @@ source "https://rubygems.org"
 
 ruby RUBY_VERSION
 
-gem "decidim", "0.23.1"
+gem "decidim", "0.23.2"
 # gem "decidim-consultations", "0.23.1"
 # gem "decidim-initiatives", "0.23.1"
 # gem "decidim-templates", "0.23.1"
+
+gem "decidim-term_customizer", github: "OpenSourcePolitics/decidim-module-term_customizer", branch: "0.dev"
 
 gem "bootsnap", "~> 1.3"
 
@@ -21,7 +23,7 @@ gem "wicked_pdf", "~> 1.4"
 group :development, :test do
   gem "byebug", "~> 11.0", platform: :mri
 
-  gem "decidim-dev", "0.23.1"
+  gem "decidim-dev", "0.23.2"
 end
 
 group :development do
@@ -33,6 +35,7 @@ group :development do
 end
 
 group :production do
+  gem "fog-aws"
   gem "hiredis"
   gem "newrelic_rpm"
   gem "redis"

@@ -1,0 +1,12 @@
+bases:
+  - ../../base
+resources:
+  - autoscaling_app.yaml
+  - autoscaling_sidekiq.yaml
+  - app-ingress.yml
+patchesStrategicMerge:
+  - app-deployment.yml
+  - sidekiq-deployment.yml
+  - app-configmap.yml
+  - terminal.yaml
+
