@@ -15,14 +15,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Set env
-        run: export CACHE_TAG="ghcr.io/opensourcepolitics/osp-app-k8s/${GITHUB_REF}"
+        run: echo "CACHE_TAG=ghcr.io/opensourcepolitics/osp-app-k8s/${GITHUB_REF}" >> $GITHUB_ENV
       - name: Login to registry
         run: |
           docker login ghcr.io -u opensourcepolitics -p ${{ secrets.GITHUB_TOKEN }}
       - name: Building cached image
         run: |
-          docker build . --compress -t ${CACHE_TAG}
+          docker build . --compress -t ${{env.CACHE_TAG}}
       - name: Pushing cached image
         run: |
-          docker push ${CACHE_TAG}
+          docker push ${{env.CACHE_TAG}}
 

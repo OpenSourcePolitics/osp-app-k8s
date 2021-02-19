@@ -15,12 +15,14 @@ jobs:
       - name: Login to registry
         run: |
           docker login docker.pkg.github.com -u opensourcepolitics -p ${{ secrets.GITHUB_TOKEN }}
+      - name: Set env
+        run: echo "CACHE_TAG=ghcr.io/opensourcepolitics/osp-app-k8s/${GITHUB_REF}" >> $GITHUB_ENV
       - names: Pulling cached image
         run: |
-          docker pull docker.pkg.github.com/opensourcepolitics/osp-app-k8s/${GITHUB_REF}
+          docker pull ${{env.CACHE_TAG}}
       - names: Retagging image
         run: |
-          docker tag docker.pkg.github.com/OpenSourcePolitics/${GITHUB_REF} ${{ secrets.STAGING_TAG }}
+          docker tag ${{env.CACHE_TAG} ${{ secrets.STAGING_TAG }}}
       - name: Checks for modified app deployment
         uses: dorny/paths-filter@v2
         id: app_changes
@@ -84,3 +86,8 @@ jobs:
           KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
         with:
           args: rollout restart deployment
+      - uses: smartsquaregmbh/delete-old-packages@v0.2.0
+        keep: 0
+        with:
+          names: |
+            ${{env.CACHE_TAG}}
