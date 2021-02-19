@@ -1,5 +1,5 @@
 ---
-name: Build Image for staging
+name: Build cache image
 
 on:
   push:
@@ -9,17 +9,20 @@ on:
       - master
 
 jobs:
-  build_staging_image:
+  build_cache_image:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
-      - uses: whoan/docker-build-with-cache-action@v5
-        with:
-          username: OpenSourcePolitics
-          password: ${{ secrets.GITHUB_TOKEN }}
-          image_name: "${ GITHUB_SHA }"
-          registry: docker.pkg.github.com
-          build_extra_args: "--compress=true"
-          push_image_and_stages: false
-          pull_image_and_stages: false
+      - name: Set env
+        run: export CACHE_TAG="ghcr.io/opensourcepolitics/osp-app-k8s/${GITHUB_REF}"
+      - name: Login to registry
+        run: |
+          docker login ghcr.io -u opensourcepolitics -p ${{ secrets.GITHUB_TOKEN }}
+      - name: Building cached image
+        run: |
+          docker build . --compress -t ${CACHE_TAG}
+      - name: Pushing cached image
+        run: |
+          docker push ${CACHE_TAG}
+

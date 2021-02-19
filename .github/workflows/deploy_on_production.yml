@@ -17,10 +17,10 @@ jobs:
           docker login docker.pkg.github.com -u opensourcepolitics -p ${{ secrets.GITHUB_TOKEN }}
       - names: Pulling cached image
         run: |
-          docker pull docker.pkg.github.com/opensourcepolitics/osp-app-k8s/${GITHUB_SHA}
+          docker pull docker.pkg.github.com/opensourcepolitics/osp-app-k8s/${GITHUB_REF}
       - names: Retagging image
         run: |
-          docker tag docker.pkg.github.com/OpenSourcePolitics/${GITHUB_SHA} ${{ secrets.STAGING_TAG }}
+          docker tag docker.pkg.github.com/OpenSourcePolitics/${GITHUB_REF} ${{ secrets.STAGING_TAG }}
       - name: Checks for modified app deployment
         uses: dorny/paths-filter@v2
         id: app_changes
