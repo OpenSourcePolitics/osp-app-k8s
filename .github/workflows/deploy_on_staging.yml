@@ -14,7 +14,13 @@ jobs:
       - uses: actions/checkout@v2
       - name: Login to registry
         run: |
-          docker login ${{ secrets.REGISTRY }} -u userdoesnotmatter -p ${{ secrets.TOKEN }}
+          docker login docker.pkg.github.com -u opensourcepolitics -p ${{ secrets.GITHUB_TOKEN }}
+      - names: Pulling cached image
+        run: |
+          docker pull docker.pkg.github.com/opensourcepolitics/osp-app-k8s/${GITHUB_SHA}
+      - names: Retagging image
+        run: |
+          docker tag docker.pkg.github.com/OpenSourcePolitics/${GITHUB_SHA} ${{ secrets.STAGING_TAG }}
       - name: Checks for modified app deployment
         uses: dorny/paths-filter@v2
         id: app_changes
@@ -40,6 +46,9 @@ jobs:
           check-name: Tests # name of the existing check - omit to wait for all checks
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           wait-interval: 30 # seconds
+      - name: Login to registry
+        run: |
+          docker login ${{ secrets.REGISTRY }} -u userdoesnotmatter -p ${{ secrets.TOKEN }}
       - name: Push Image
         run: |
           docker push ${{ secrets.STAGING_TAG }}
