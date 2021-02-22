@@ -1,0 +1,45 @@
+name: Security checks
+on: push
+jobs:
+  security_checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/ruby@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      - name: Generate staging manifest
+        run: |
+          kustomize build kubeconfig/overlays/staging >> staging_manifest.yml
+      - name: Check kubernetes staging files
+        uses: snyk/actions/iac@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          file: staging_manifest.yml
+          args: --severity-threshold=high
+      - name: Generate production manifest
+        run: |
+          kustomize build kubeconfig/overlays/production >> production_manifest.yml
+      - name: Check kubernetes production files
+        uses: snyk/actions/iac@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          file: production_manifest.yml
+          args: --severity-threshold=high
+      - name: Run Brakeman
+        run: |
+          docker pull presidentbeef/brakeman
+          docker run -v "$(pwd)":/code presidentbeef/brakeman
+      - name: Build a Docker image
+        run: docker build . -t snyk_tmp
+      - name: Run Snyk to check Docker image for vulnerabilities
+        continue-on-error: true
+        uses: snyk/actions/docker@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          image: snyk_tmp
+          args: --severity-threshold=high
