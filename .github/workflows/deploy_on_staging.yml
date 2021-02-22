@@ -13,14 +13,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Login to registry
-          run: |
-            docker login ${{ secrets.CACHE_REGISTRY }} -u userdoesnotmatter -p ${{ secrets.TOKEN }}
+        run: |
+          docker login ${{ secrets.CACHE_REGISTRY }} -u userdoesnotmatter -p ${{ secrets.TOKEN }}
       - name: Set env
         run: echo "CACHE_TAG=${{ secrets.CACHE_REGISTRY }}/${GITHUB_REF}" >> $GITHUB_ENV
       - names: Pulling cached image
         run: |
           docker pull ${{env.CACHE_TAG}}
-      - names: Retagging image
+      - name: Renaming image
         run: |
           docker tag ${{env.CACHE_TAG}} ${{ secrets.STAGING_TAG }}
       - name: Checks for modified app deployment
@@ -86,8 +86,3 @@ jobs:
           KUBE_CONFIG: ${{ secrets.STAGING_KUBE_CONFIG }}
         with:
           args: rollout restart deployment
-      - uses: smartsquaregmbh/delete-old-packages@v0.2.0
-        keep: 0
-        with:
-          names: |
-            ${{env.CACHE_TAG}}
