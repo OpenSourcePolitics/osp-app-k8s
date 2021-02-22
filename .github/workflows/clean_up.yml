@@ -15,14 +15,37 @@ jobs:
     steps:
       - name: Set env
         run: echo "CACHE_TAG=${{ secrets.CACHE_REGISTRY }}/${GITHUB_REF}" >> $GITHUB_ENV
-      - name: 'Wait for status checks'
-        id: waitforstatuschecks
-        uses: "WyriHaximus/github-action-wait-for-status@v1.3.0"
+      - name: Login to registry
+        run: |
+          docker login ${{ secrets.CACHE_REGISTRY }} -u userdoesnotmatter -p ${{ secrets.TOKEN }}
+
+      - name: Wait on cache build
+        uses: lewagon/wait-on-check-action@master
         with:
-          checkInterval: 60
-      - uses: smartsquaregmbh/delete-old-packages@v0.2.0
-        if: steps.waitforstatuschecks.outputs.status == 'success'
+          ref: ${{ github.sha }}
+          check-name: build_cache_image
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          wait-interval: 30 # seconds
+
+      - name: Wait on production Deploy
+        if: github.ref == 'refs/heads/master'
+        uses: lewagon/wait-on-check-action@master
         with:
-          names: |
-            ${{env.CACHE_TAG}}
+          ref: ${{ github.sha }}
+          check-name: deploy_production
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          wait-interval: 30 # seconds
+
+      - name: Wait on production Deploy
+        if: github.ref == 'refs/heads/develop'
+        uses: lewagon/wait-on-check-action@master
+        with:
+          ref: ${{ github.sha }}
+          check-name: deploy_staging
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          wait-interval: 30 # seconds
+
+      - name: Removes old images
+        run: |
+          docker rmi ${{env.CACHE_TAG}}
 

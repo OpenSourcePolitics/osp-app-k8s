@@ -7,7 +7,7 @@ on:
       - develop
 
 jobs:
-  build:
+  deploy_staging:
     runs-on: ubuntu-latest
 
     steps:
@@ -17,6 +17,13 @@ jobs:
           docker login ${{ secrets.CACHE_REGISTRY }} -u userdoesnotmatter -p ${{ secrets.TOKEN }}
       - name: Set env
         run: echo "CACHE_TAG=${{ secrets.CACHE_REGISTRY }}/${GITHUB_REF}" >> $GITHUB_ENV
+      - name: Wait on tests
+        uses: lewagon/wait-on-check-action@master
+        with:
+          ref: ${{ github.sha }}
+          check-name: build_cache_image # name of the existing check - omit to wait for all checks
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          wait-interval: 30 # seconds
       - names: Pulling cached image
         run: |
           docker pull ${{env.CACHE_TAG}}
@@ -44,8 +51,8 @@ jobs:
       - name: Wait on tests
         uses: lewagon/wait-on-check-action@master
         with:
-          ref: master # can be commit SHA or tag too
-          check-name: Tests # name of the existing check - omit to wait for all checks
+          ref: ${{ github.sha }}
+          check-name: run_tests # name of the existing check - omit to wait for all checks
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           wait-interval: 30 # seconds
       - name: Login to registry

@@ -19,6 +19,9 @@ jobs:
       - name: Login to registry
         run: |
           docker login ${{ secrets.CACHE_REGISTRY }} -u userdoesnotmatter -p ${{ secrets.TOKEN }}
+      - name: Pulling previous build
+        run: |
+          docker pull ${{env.CACHE_TAG}} || exit 0
       - name: Building cached image
         run: |
           docker build . --compress -t ${{env.CACHE_TAG}}

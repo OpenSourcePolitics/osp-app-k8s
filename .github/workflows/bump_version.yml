@@ -5,7 +5,7 @@ on:
     branches:
       - master
 jobs:
-  build:
+  bump_version:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
