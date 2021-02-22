@@ -18,7 +18,7 @@ jobs:
         run: echo "CACHE_TAG=${{ secrets.CACHE_REGISTRY }}/${GITHUB_REF}" >> $GITHUB_ENV
       - name: Login to registry
         run: |
-          docker login ${{ secrets.CACHE_REGISTRY }} -p ${{ secrets.GITHUB_TOKEN }}
+          docker login ${{ secrets.CACHE_REGISTRY }} -u userdoesnotmatter -p ${{ secrets.TOKEN }}
       - name: Building cached image
         run: |
           docker build . --compress -t ${{env.CACHE_TAG}}
