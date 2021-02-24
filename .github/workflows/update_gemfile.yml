@@ -35,6 +35,7 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
+          base: develop
           commit-message: Bump Gemfile.lock and install migrations
           branch: "bump/update-app-${{ steps.time.outputs.time }}"
           title: 'Update app'
