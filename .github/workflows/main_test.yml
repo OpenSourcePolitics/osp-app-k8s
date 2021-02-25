@@ -1,0 +1,26 @@
+name: Tests
+on:
+  push:
+    branches:
+      - develop
+      - master
+
+jobs:
+  main_test:
+    runs-on: ubuntu-latest
+    if: "!startsWith(github.head_ref, 'chore/l10n')"
+    steps:
+      - name: Wait on tests_1
+        uses: lewagon/wait-on-check-action@master
+        with:
+          ref: ${ GITHUB_REF } # can be commit SHA or tag too
+          check-name: main_test # name of the existing check - omit to wait for all checks
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          wait-interval: 30 # seconds
+      - name: Wait on tests_2
+        uses: lewagon/wait-on-check-action@master
+        with:
+          ref: ${ GITHUB_REF } # can be commit SHA or tag too
+          check-name: main_test # name of the existing check - omit to wait for all checks
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          wait-interval: 30 # seconds
