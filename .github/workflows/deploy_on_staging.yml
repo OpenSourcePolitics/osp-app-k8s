@@ -39,7 +39,7 @@ jobs:
       - name: Wait on tests
         uses: lewagon/wait-on-check-action@master
         with:
-          ref: ${{ github.event.pull_request.head.sha }} # can be commit SHA or tag too
+          ref: develop # can be commit SHA or tag too
           check-name: main_test # name of the existing check - omit to wait for all checks
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           wait-interval: 30 # seconds
