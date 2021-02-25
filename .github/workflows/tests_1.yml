@@ -14,6 +14,7 @@ env:
   RUBY_VERSION: 2.6.0
   BUNDLE_JOBS: 20
   BUNDLE_RETRY: 5
+  DECIDIM_MODULE: osp-app-k8s
 
 jobs:
   tests_1:
