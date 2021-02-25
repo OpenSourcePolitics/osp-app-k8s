@@ -1,5 +1,13 @@
 name: Security checks
-on: push
+on:
+  push:
+    branches:
+      - develop
+      - master
+  pull_request:
+    branches-ignore:
+      - "chore/l10n*"
+
 jobs:
   security_checks:
     runs-on: ubuntu-latest
