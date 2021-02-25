@@ -4,6 +4,9 @@ on:
     branches:
       - develop
       - master
+  pull_request:
+    branches-ignore:
+      - "chore/l10n*"
 
 jobs:
   main_test:
