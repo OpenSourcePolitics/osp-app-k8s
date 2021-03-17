@@ -7,7 +7,7 @@ on:
       - master
 
 jobs:
-  build:
+  deploy_on_production:
     runs-on: ubuntu-latest
 
     steps:
@@ -40,7 +40,7 @@ jobs:
         uses: lewagon/wait-on-check-action@master
         with:
           ref: master # can be commit SHA or tag too
-          check-name: Tests # name of the existing check - omit to wait for all checks
+          check-name: main_test # name of the existing check - omit to wait for all checks
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           wait-interval: 30 # seconds
       - name: Push Image
