@@ -334,7 +334,7 @@ GEM
       decidim-core (= 0.23.4)
     declarative-builder (0.1.0)
       declarative-option (< 0.2.0)
-    declarative-option (0.1.1)
+    declarative-option (0.1.0)
     descendants_tracker (0.0.4)
       thread_safe (~> 0.3, >= 0.3.1)
     devise (4.7.3)
@@ -394,7 +394,7 @@ GEM
     file_validators (2.3.0)
       activemodel (>= 3.2)
       mime-types (>= 1.0)
-    fog-aws (3.8.0)
+    fog-aws (3.9.0)
       fog-core (~> 2.1)
       fog-json (~> 1.1)
       fog-xml (~> 0.1)
@@ -584,7 +584,7 @@ GEM
       actionmailer (>= 3)
       premailer (~> 1.7, >= 1.7.9)
     public_suffix (4.0.6)
-    puma (5.2.1)
+    puma (5.2.2)
       nio4r (~> 2.0)
     raabro (1.4.0)
     racc (1.5.2)
@@ -724,18 +724,18 @@ GEM
     selenium-webdriver (3.142.7)
       childprocess (>= 0.5, < 4.0)
       rubyzip (>= 1.2.2)
-    sentry-rails (4.2.0)
+    sentry-rails (4.3.0)
       rails (>= 5.0)
-      sentry-ruby-core (~> 4.2.0)
-    sentry-ruby (4.2.1)
+      sentry-ruby-core (~> 4.3.0)
+    sentry-ruby (4.3.0)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       faraday (>= 1.0)
-      sentry-ruby-core (= 4.2.1)
-    sentry-ruby-core (4.2.1)
+      sentry-ruby-core (= 4.3.0)
+    sentry-ruby-core (4.3.0)
       concurrent-ruby
       faraday
     seven_zip_ruby (1.3.0)
-    sidekiq (6.1.3)
+    sidekiq (6.2.0)
       connection_pool (>= 2.2.2)
       rack (~> 2.0)
       redis (>= 4.2.0)
@@ -855,7 +855,7 @@ DEPENDENCIES
   wicked_pdf (~> 1.4)
 
 RUBY VERSION
-   ruby 2.6.0p0
+   ruby 2.6.6p146
 
 BUNDLED WITH
-   2.2.9
+   2.2.11
