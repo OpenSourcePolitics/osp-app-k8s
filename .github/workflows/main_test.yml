@@ -34,9 +34,9 @@ jobs:
           check-name: tests_2 # name of the existing check - omit to wait for all checks
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           wait-interval: 30 # seconds
-      - name: Wait on security checks
-          uses: lewagon/wait-on-check-action@master
-          with:
+      - name: Wait on security checks  
+        uses: lewagon/wait-on-check-action@master
+        with:
             ref: ${{ github.event.pull_request.head.sha }} # can be commit SHA or tag too
             check-name: security_checks # name of the existing check - omit to wait for all checks
             repo-token: ${{ secrets.GITHUB_TOKEN }}
