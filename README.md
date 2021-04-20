@@ -1,5 +1,8 @@
 # osp-app-k8s
 
+![Deploy Image to registry](https://github.com/armandfardeau/osp-app-k8s/workflows/Deploy%20Image%20to%20registry/badge.svg)
+![Tests](https://github.com/armandfardeau/osp-app-k8s/workflows/Tests/badge.svg)
+
 Free Open-Source participatory democracy, citizen participation and open government for cities and organizations
 
 This is the open-source repository for osp-app-k8s, based on [Decidim](https://github.com/decidim/decidim).
