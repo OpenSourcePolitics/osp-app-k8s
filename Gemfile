@@ -11,12 +11,12 @@ gem "decidim", "0.24.1"
 
 gem "decidim-term_customizer", github: "OpenSourcePolitics/decidim-module-term_customizer", branch: "0.dev"
 
-gem "bootsnap", "~> 1.3"
+gem "bootsnap", "~> 1.4"
 
 gem "puma", ">= 4.3.5"
 gem "uglifier", "~> 4.1"
 
-gem "faker", "~> 1.9"
+gem "faker", "~> 2.14"
 
 gem "wicked_pdf", "~> 1.4"
 
