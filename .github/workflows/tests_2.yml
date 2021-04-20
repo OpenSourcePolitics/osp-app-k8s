@@ -6,6 +6,7 @@ on:
       - master
   pull_request:
     branches-ignore:
+      - master
       - "chore/l10n*"
 
 env:
