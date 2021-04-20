@@ -58,6 +58,12 @@ jobs:
           KUBE_CONFIG: ${{ secrets.STAGING_KUBE_CONFIG }}
         with:
           args: apply -f kubeconfig/base/migration-job.yaml
+      - name: Run empty cache
+          uses: actions-hub/kubectl@master
+          env:
+            KUBE_CONFIG: ${{ secrets.STAGING_KUBE_CONFIG }}
+          with:
+            args: apply -f kubeconfig/base/empty-cache-job.yaml
       - name: Apply configuration changes
         uses: actions-hub/kubectl@master
         env:
