@@ -1,4 +1,4 @@
-FROM ruby:2.6.0
+FROM ruby:2.7.1
 LABEL maintainer="hola@decidim.org"
 
 ENV USER_ID=1000 \

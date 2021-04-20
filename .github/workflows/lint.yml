@@ -11,7 +11,7 @@ on:
 env:
   CI: "true"
   SIMPLECOV: "true"
-  RUBY_VERSION: 2.6.0
+  RUBY_VERSION: 2.7.1
   NODE_VERSION: 12.9.1
   BUNDLE_JOBS: 20
   BUNDLE_RETRY: 5
