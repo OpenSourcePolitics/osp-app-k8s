@@ -17,28 +17,28 @@ jobs:
       - name: Wait on lint
         uses: lewagon/wait-on-check-action@master
         with:
-          ref: ${{ github.event.pull_request.head.sha }} # can be commit SHA or tag too
+          ref: ${{ github.ref }} # can be commit SHA or tag too
           check-name: lint # name of the existing check - omit to wait for all checks
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           wait-interval: 30 # seconds
       - name: Wait on tests_1
         uses: lewagon/wait-on-check-action@master
         with:
-          ref: ${{ github.event.pull_request.head.sha }} # can be commit SHA or tag too
+          ref: ${{ github.ref }} # can be commit SHA or tag too
           check-name: tests_1 # name of the existing check - omit to wait for all checks
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           wait-interval: 30 # seconds
       - name: Wait on tests_2
         uses: lewagon/wait-on-check-action@master
         with:
-          ref: ${{ github.event.pull_request.head.sha }} # can be commit SHA or tag too
+          ref: ${{ github.ref }} # can be commit SHA or tag too
           check-name: tests_2 # name of the existing check - omit to wait for all checks
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           wait-interval: 30 # seconds
       - name: Wait on security checks
         uses: lewagon/wait-on-check-action@master
         with:
-          ref: ${{ github.event.pull_request.head.sha }} # can be commit SHA or tag too
+          ref: ${{ github.ref }} # can be commit SHA or tag too
           check-name: security_checks # name of the existing check - omit to wait for all checks
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           wait-interval: 30 # seconds
