@@ -1,4 +1,4 @@
-name: Tests
+name: Tests 2
 on:
   push:
     branches:
@@ -6,18 +6,19 @@ on:
       - master
   pull_request:
     branches-ignore:
+      - master
       - "chore/l10n*"
 
 env:
   CI: "true"
   SIMPLECOV: "true"
-  RUBY_VERSION: 2.6.0
+  RUBY_VERSION: 2.7.1
   BUNDLE_JOBS: 20
   BUNDLE_RETRY: 5
+  DECIDIM_MODULE: osp-app-k8s
 
 jobs:
-  tests:
-    name: Tests
+  tests_2:
     runs-on: ubuntu-latest
     if: "!startsWith(github.head_ref, 'chore/l10n')"
     services:
@@ -48,12 +49,6 @@ jobs:
         with:
           ruby-version: ${{ env.RUBY_VERSION }}
           bundler-cache: true
-      - name:
-        run: |
-          bundle exec rubocop -P
-      - name: Lint views
-        run: |
-          ./.github/run_erblint.sh
       - name: Create db
         run: |
           bundle exec rails db:create
@@ -61,9 +56,12 @@ jobs:
       - run: mkdir -p ./spec/decidim_dummy_app/tmp/screenshots
         name: Create the screenshots folder
       - uses: nanasess/setup-chromedriver@v1.0.1
-      - run: bundle exec rspec
+      - run: |
+          count=$(ls spec/system/**/*_spec.rb | wc -l | tr -d ' ')
+          half=$(expr $count / 2)
+          list_of_files=$(ls spec/system/**/*_spec.rb | sed -n "$(expr $half + 1), $(echo $count)p" | xargs)
+          bundle exec rspec $list_of_files
         name: RSpec
-        working-directory: ${{ env.DECIDIM_MODULE }}
       - run: ./.github/upload_coverage.sh $DECIDIM_MODULE $GITHUB_EVENT_PATH
         name: Upload coverage
       - uses: actions/upload-artifact@v2-preview

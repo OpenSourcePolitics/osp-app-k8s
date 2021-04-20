@@ -1,4 +1,4 @@
-FROM ruby:2.6.0
+FROM ruby:2.7.1
 LABEL maintainer="hola@decidim.org"
 
 ENV USER_ID=1000 \
@@ -8,8 +8,7 @@ ENV USER_ID=1000 \
     BUNDLE_JOBS=20 \
     BUNDLE_RETRY=5 \
     APP_HOME=/usr/src/app/ \
-    PATH=${APP_HOME}/bin:${PATH} \
-    SECRET_KEY_BASE=dummy_key_base
+    PATH=${APP_HOME}/bin:${PATH}
 
 RUN apt-get update -qq \
     && DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends \
@@ -47,7 +46,25 @@ RUN gem uninstall bundler \
 
 COPY --chown=decidim:decidim . ${APP_HOME}
 
-RUN bundle exec rails assets:precompile
+RUN  DATABASE_HOST="dummy" \
+        DATABASE_NAME="dummy" \
+        DATABASE_PASSWORD="dummy" \
+        DATABASE_PORT="dummy" \
+        DATABASE_USERNAME="dummy" \
+        MAPS_API_KEY="dummy" \
+        REDIS_URL="dummy" \
+        SCALEWAY_BUCKET_NAME="dummy" \
+        SCALEWAY_ID="dummy" \
+        SCALEWAY_TOKEN="dummy" \
+        SECRET_KEY_BASE="dummy" \
+        SENTRY_DSN="dummy" \
+        SMTP_ADDRESS="dummy" \
+        SMTP_DOMAIN="dummy" \
+        SMTP_PASSWORD="dummy" \
+        RAILS_LOG_TO_STDOUT="dummy" \
+        RAILS_SERVE_STATIC_FILES="dummy" \
+        APP_NAME="dummy" \
+        bundle exec rails assets:precompile
 
 RUN chmod +x ./sidekiq_alive.sh ./sidekiq_quiet.sh ./puma_alive.sh ./docker-entrypoint.sh
 

@@ -1,0 +1,18 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: decidim-k8s-empty-cache
+spec:
+  ttlSecondsAfterFinished: 120
+  template:
+    spec:
+      containers:
+        - name: decidim-k8s-empty-cache
+          image: rg.fr-par.scw.cloud/decidim/osp-decidim:latest
+          command: ["bundle",  "exec", "rails", "tmp:clear"]
+          envFrom:
+            - configMapRef:
+                name: decidim-k8s-config
+            - secretRef:
+                name: decidim-k8s-app-secrets
+      restartPolicy: Never
