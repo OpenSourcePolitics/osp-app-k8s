@@ -4,7 +4,7 @@ source "https://rubygems.org"
 
 ruby RUBY_VERSION
 
-gem "decidim", "0.23.2"
+gem "decidim", "0.24.1"
 # gem "decidim-consultations", "0.23.1"
 # gem "decidim-initiatives", "0.23.1"
 # gem "decidim-templates", "0.23.1"
@@ -23,7 +23,7 @@ gem "wicked_pdf", "~> 1.4"
 group :development, :test do
   gem "byebug", "~> 11.0", platform: :mri
 
-  gem "decidim-dev", "0.23.2"
+  gem "decidim-dev", "0.24.1"
 end
 
 group :development do
