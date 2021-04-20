@@ -18,7 +18,6 @@ env:
 
 jobs:
   lint:
-    name: Lint code
     runs-on: ubuntu-latest
     if: "!startsWith(github.head_ref, 'chore/l10n')"
     timeout-minutes: 60
