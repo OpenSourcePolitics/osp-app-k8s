@@ -57,7 +57,13 @@ jobs:
         env:
           KUBE_CONFIG: ${{ secrets.STAGING_KUBE_CONFIG }}
         with:
-          args: apply -f kubeconfig/base/migration-job.yaml
+          args: apply -f kubeconfig/base/migration-job-staging.yaml
+      - name: Delete old empty cache job
+          uses: actions-hub/kubectl@master
+          env:
+            KUBE_CONFIG: ${{ secrets.STAGING_KUBE_CONFIG }}
+          with:
+            args: delete job decidim-k8s-empty-cache-job --ignore-not-found
       - name: Run empty cache
           uses: actions-hub/kubectl@master
           env:
