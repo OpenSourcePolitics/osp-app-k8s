@@ -7,3 +7,4 @@ resources:
 - migration-job.yaml
 - sidekiq-deployment.yml
 - terminal.yaml
+- secrets.yml

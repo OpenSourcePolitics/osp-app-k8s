@@ -42,6 +42,39 @@ apply-production:
 apply-staging:
 	kubectl apply -k kubeconfig/overlays/staging
 
+setup:
+	helm repo add jetstack https://charts.jetstack.io
+	helm repo add bitnami https://charts.bitnami.com/bitnami
+	helm repo update
+	helm install redis-cluster bitnami/redis \
+	  --namespace redis-cluster \
+	  --create-namespace \
+	  --set auth.enabled=false \
+      --set cluster.slaveCount=3 \
+      --set securityContext.enabled=true \
+      --set securityContext.fsGroup=2000 \
+      --set securityContext.runAsUser=1000 \
+      --set volumePermissions.enabled=true \
+      --set master.persistence.enabled=true \
+      --set slave.persistence.enabled=true \
+      --set master.persistence.enabled=true \
+      --set master.persistence.path=/data \
+      --set master.persistence.size=8Gi \
+      --set master.persistence.storageClass=manual \
+      --set slave.persistence.enabled=true \
+      --set slave.persistence.path=/data \
+      --set slave.persistence.size=8Gi \
+      --set slave.persistence.storageClass=manual
+	helm install \
+      cert-manager jetstack/cert-manager \
+      --namespace cert-manager \
+      --create-namespace \
+      --version v1.5.4 \
+      --set installCRDs=true
+
+dump_secret:
+	kubectl get secret decidim-k8s-app-secrets -o yaml > $$(pwd)/kubeconfig/base/secrets.yml
+
 dashboard:
 	open http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/#/overview?namespace=default
 	@make proxy
