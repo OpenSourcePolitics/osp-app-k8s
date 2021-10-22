@@ -8,5 +8,5 @@ metadata:
 data:
   RACK_ATTACK_DISABLED: "true"
   CACHE_ASSETS: "true"
-  SENTRY_TRACES_SAMPLE_RATE: "0.5"
+  SENTRY_TRACES_SAMPLE_RATE: "1"
   NEW_RELIC_ENV: "staging"

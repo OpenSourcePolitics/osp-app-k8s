@@ -43,12 +43,11 @@ apply-staging:
 	kubectl apply -k kubeconfig/overlays/staging
 
 setup:
+	kubectl apply -f kubeconfig/base/secrets.yml
 	helm repo add jetstack https://charts.jetstack.io
 	helm repo add bitnami https://charts.bitnami.com/bitnami
 	helm repo update
 	helm install redis-cluster bitnami/redis \
-	  --namespace redis-cluster \
-	  --create-namespace \
 	  --set auth.enabled=false \
       --set cluster.slaveCount=3 \
       --set securityContext.enabled=true \
