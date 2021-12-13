@@ -33,3 +33,5 @@
 # Ignore public uploads
 public/uploads
 .rspec-failures
+
+/kubeconfig/base/secrets.yml
