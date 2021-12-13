@@ -55,20 +55,18 @@ setup:
       --set securityContext.runAsUser=1000 \
       --set volumePermissions.enabled=true \
       --set master.persistence.enabled=true \
-      --set slave.persistence.enabled=true \
-      --set master.persistence.enabled=true \
       --set master.persistence.path=/data \
       --set master.persistence.size=8Gi \
-      --set master.persistence.storageClass=manual \
+      --set master.persistence.storageClass="scw-bssd-retain" \
       --set slave.persistence.enabled=true \
       --set slave.persistence.path=/data \
       --set slave.persistence.size=8Gi \
-      --set slave.persistence.storageClass=manual
+      --set slave.persistence.storageClass="scw-bssd-retain"
 	helm install \
       cert-manager jetstack/cert-manager \
       --namespace cert-manager \
       --create-namespace \
-      --version v1.5.4 \
+      --version v1.6.1 \
       --set installCRDs=true
 
 dump_secret:
